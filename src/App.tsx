@@ -2,27 +2,47 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-class App extends React.Component {
-  render(){
+interface AppProps {
+  name: string,
+  surname: string,
+}
+interface AppState {
+  number: number
+}
+class App extends React.Component<AppProps, AppState> {
+  timer: any;
+
+  constructor(props: AppProps | Readonly<AppProps>) {
+    super(props);
+    this.state = {
+      number: 0
+    };
+  }
+
+  componentDidMount() {
+    this.timer = setInterval(() => {
+      this.setState((state, _props) => ({
+        number: state.number + 1
+      }))
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
+  render() {
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            Edit <code>src/App.tsx</code> and save to reload.
+            Nome: {this.props.name}, cognome: {this.props.surname}
           </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <p>{this.state.number}</p>
         </header>
       </div>
     );
-
   }
 }
 
