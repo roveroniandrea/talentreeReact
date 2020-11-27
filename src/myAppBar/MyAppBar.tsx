@@ -1,22 +1,17 @@
 import { AppBar, Tab, Tabs } from "@material-ui/core";
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 
-interface MyAppBarProps {
-    match: any,
-    location: any,
-    history: any
-}
 
 interface MyAppBarState {
     selectedTabIndex: number;
 }
 
-class MyAppBar extends React.Component<MyAppBarProps, MyAppBarState> {
+class MyAppBar extends React.Component<RouteComponentProps, MyAppBarState> {
 
     myRoutes: Array<{ name: string, route: string }>
 
-    constructor(props: MyAppBarProps | Readonly<MyAppBarProps>) {
+    constructor(props: RouteComponentProps | Readonly<RouteComponentProps>) {
         super(props);
         this.state = {
             selectedTabIndex: 0
@@ -32,6 +27,7 @@ class MyAppBar extends React.Component<MyAppBarProps, MyAppBarState> {
                 route: '/2'
             }
         ]
+        console.log(this.props);
     }
 
     componentDidMount() {
