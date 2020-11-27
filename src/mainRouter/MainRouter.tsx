@@ -4,6 +4,7 @@ import {
     Switch,
     Route,
   } from "react-router-dom";
+import Home from "../home/Home";
 import MyAppBar from "../myAppBar/MyAppBar";
 
 class MainRouter extends React.Component{
@@ -14,7 +15,7 @@ class MainRouter extends React.Component{
                 <MyAppBar></MyAppBar>
                 <Switch>
                     <Route exact path="/">
-                        <h1>Home</h1>
+                        <Home/>
                     </Route>
                     <Route exact path="/2">
                         <h1>Pagina 2</h1>

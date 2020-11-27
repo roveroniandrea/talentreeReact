@@ -1,6 +1,7 @@
-import { AppBar, Tab, Tabs } from "@material-ui/core";
+import { AppBar, Tab, Tabs, Toolbar, Typography } from "@material-ui/core";
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
+import styles from './MyAppBar.module.css';
 
 
 interface MyAppBarState {
@@ -26,8 +27,7 @@ class MyAppBar extends React.Component<RouteComponentProps, MyAppBarState> {
                 name: 'Pagina 2',
                 route: '/2'
             }
-        ]
-        console.log(this.props);
+        ];
     }
 
     componentDidMount() {
@@ -38,15 +38,20 @@ class MyAppBar extends React.Component<RouteComponentProps, MyAppBarState> {
 
     render() {
         return (
-            <AppBar position="static">
-                <Tabs value={this.state.selectedTabIndex} onChange={(_e, index) => this.changeToRoute(index)}>
-                    {
-                        this.myRoutes.map(r =>
-                            <Tab key={r.name} label={r.name}></Tab>
-                        )
-                    }
-                </Tabs>
-            </AppBar>
+            <AppBar position="static" className={styles.appBar}>
+                <Toolbar variant="dense">
+                    <Typography variant="h6" className={styles.title}>
+                        Talentree
+                    </Typography>
+                    <Tabs value={this.state.selectedTabIndex} onChange={(_e, index) => this.changeToRoute(index)}>
+                        {
+                            this.myRoutes.map(r =>
+                                <Tab key={r.name} label={r.name}></Tab>
+                            )
+                        }
+                    </Tabs>
+                </Toolbar>
+            </AppBar >
         );
     }
 
