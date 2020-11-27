@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Button } from './button/Button';
 
 interface AppProps {
   name: string,
@@ -40,9 +41,17 @@ class App extends React.Component<AppProps, AppState> {
             Nome: {this.props.name}, cognome: {this.props.surname}
           </p>
           <p>{this.state.number}</p>
+          <Button onClick={() => this.onClickHandler()} text="Aumenta di 100" />
+          <button>Ciao</button>
         </header>
       </div>
     );
+  }
+
+  onClickHandler() {
+    this.setState((state, _props) => ({
+      number: state.number + 100
+    }));
   }
 }
 
