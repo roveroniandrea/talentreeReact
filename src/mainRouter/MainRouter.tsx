@@ -3,8 +3,8 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Redirect,
 } from "react-router-dom";
+import Home from "../home/Home";
 import MyAppBar from "../myAppBar/MyAppBar";
 
 class MainRouter extends React.Component {
