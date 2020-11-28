@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import MainRouter from './mainRouter/MainRouter';
-import MyAppBar from './myAppBar/MyAppBar';
 
 class App extends React.Component {
   render() {
