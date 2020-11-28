@@ -5,6 +5,7 @@ import {
     Route,
 } from "react-router-dom";
 import EventbriteApi from "../eventbriteAPI/EventbriteApi";
+import EventPage from "../eventPage/EventPage";
 import Home from "../home/Home";
 import MyAppBar from "../myAppBar/MyAppBar";
 
@@ -14,7 +15,7 @@ class MainRouter extends React.Component {
         return (
             <Router>
                 <EventbriteApi>
-                    <MyAppBar></MyAppBar>
+                    <MyAppBar />
                 </EventbriteApi>
                 <Switch>
                     <Route exact path="/">
@@ -22,6 +23,9 @@ class MainRouter extends React.Component {
                     </Route>
                     <Route exact path="/talentree">
                         <h1>Pagina Talentree</h1>
+                    </Route>
+                    <Route path="/event/:eventId">
+                        <EventPage />
                     </Route>
                     <Route path="*">
                         <h1>Not implemented</h1>
