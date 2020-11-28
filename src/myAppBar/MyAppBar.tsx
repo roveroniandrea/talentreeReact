@@ -50,7 +50,7 @@ class MyAppBar extends React.Component<RouteComponentProps> {
                                             return (
                                                 <React.Fragment>
                                                     {events.map(ev => (
-                                                        <a className="navbar-item" onClick={() => this.changeToRoute('/event/' + ev.eventId)}>{ev.eventName}</a>
+                                                        <a key={ev.eventId} className="navbar-item" onClick={() => this.changeToRoute('/event/' + ev.eventId)}>{ev.eventName}</a>
                                                     ))}
                                                 </React.Fragment>
                                             )
