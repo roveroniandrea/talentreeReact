@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
-import styles from './MyAppBar.module.css';
+import { EventbriteEventsContext } from "../eventbriteAPI/EventbriteApi";
 
 class MyAppBar extends React.Component<RouteComponentProps> {
 
@@ -9,7 +9,7 @@ class MyAppBar extends React.Component<RouteComponentProps> {
         return (
             <nav className="navbar is-success" role="navigation" aria-label="main navigation">
                 <div className="navbar-brand">
-                    <a className="navbar-item" href="https://bulma.io">
+                    <a className="navbar-item">
                         <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" alt="logo" />
                     </a>
 
@@ -30,9 +30,36 @@ class MyAppBar extends React.Component<RouteComponentProps> {
                             Talentree 2020
                         </a>
 
-                        <a className="navbar-item" onClick={() => this.changeToRoute('/activities')}>
-                            Attività 2019-2020
-                        </a>
+                        <div className="navbar-item has-dropdown is-hoverable">
+                            <a className="navbar-link">
+                                Attività 2019-2020
+                            </a>
+                            <div className="navbar-dropdown">
+                                <EventbriteEventsContext.Consumer>
+                                    {({ loadingEvents, events }) => {
+                                        if (loadingEvents) {
+                                            return (
+                                                <a className="navbar-item">
+                                                    Loading...
+                                                </a>);
+                                        }
+                                        else {
+                                            if (!events || events.length === 0) {
+                                                return <a className="navbar-item">Nessun evento</a>
+                                            }
+                                            return (
+                                                <React.Fragment>
+                                                    {events.map(ev => (
+                                                        <a className="navbar-item" onClick={() => this.changeToRoute('/event/' + ev.eventId)}>{ev.eventName}</a>
+                                                    ))}
+                                                </React.Fragment>
+                                            )
+                                        }
+                                    }}
+                                </EventbriteEventsContext.Consumer>
+                            </div>
+
+                        </div>
 
                         <a className="navbar-item" onClick={() => this.changeToRoute('/gallery')}>
                             Foto e video
