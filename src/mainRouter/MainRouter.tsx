@@ -3,12 +3,13 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-  } from "react-router-dom";
+    Redirect,
+} from "react-router-dom";
 import MyAppBar from "../myAppBar/MyAppBar";
 
-class MainRouter extends React.Component{
+class MainRouter extends React.Component {
 
-    render(){
+    render() {
         return (
             <Router>
                 <MyAppBar></MyAppBar>
@@ -16,8 +17,12 @@ class MainRouter extends React.Component{
                     <Route exact path="/">
                         <h1>Home</h1>
                     </Route>
-                    <Route exact path="/2">
-                        <h1>Pagina 2</h1>
+                    <Route exact path="/talentree">
+                        <h1>Pagina Talentree</h1>
+                    </Route>
+                    <Route path="*">
+                        <h1>Not implemented</h1>
+                        {/*<Redirect to="/" />*/}
                     </Route>
                 </Switch>
             </Router>
