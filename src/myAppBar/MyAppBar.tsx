@@ -2,6 +2,7 @@
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { EventbriteEventsContext } from "../eventbriteAPI/EventbriteApi";
+import Utility from "../utility/Utility";
 
 class MyAppBar extends React.Component<RouteComponentProps> {
 
@@ -32,7 +33,7 @@ class MyAppBar extends React.Component<RouteComponentProps> {
 
                         <div className="navbar-item has-dropdown is-hoverable">
                             <a className="navbar-link">
-                                Attività 2019-2020
+                                Attività {Utility.getCurrentYears()}
                             </a>
                             <div className="navbar-dropdown">
                                 <EventbriteEventsContext.Consumer>
