@@ -6,7 +6,8 @@ import Utility, { EventData } from "../utility/Utility";
 
 interface MyAppBarState {
     loadingEvents: boolean;
-    events: Array<EventData>
+    events: Array<EventData>;
+    burgerOpen: boolean;
 }
 
 class MyAppBar extends React.Component<RouteComponentProps, MyAppBarState> {
@@ -15,7 +16,8 @@ class MyAppBar extends React.Component<RouteComponentProps, MyAppBarState> {
         super(props);
         this.state = {
             loadingEvents: true,
-            events: []
+            events: [],
+            burgerOpen: false
         }
     }
 
@@ -36,14 +38,14 @@ class MyAppBar extends React.Component<RouteComponentProps, MyAppBarState> {
                         <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" alt="logo" />
                     </a>
 
-                    <a onClick={() => this.openDrawer()} role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                    <a onClick={() => this.toggleDrawer()} role="button" className={`navbar-burger burger ${this.state.burgerOpen ? 'is-active' : ''}`} aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
                     </a>
                 </div>
 
-                <div id="navbarBasicExample" className="navbar-menu">
+                <div className={`navbar-menu ${this.state.burgerOpen ? 'is-active' : ''}`}>
                     <div className="navbar-start">
                         <a className="navbar-item" onClick={() => this.changeToRoute('/')}>
                             Home
@@ -95,8 +97,8 @@ class MyAppBar extends React.Component<RouteComponentProps, MyAppBarState> {
         this.props.history.push(path);
     }
 
-    openDrawer() {
-        console.log('TODO:');
+    toggleDrawer() {
+        this.setState((state, _props) => ({ burgerOpen: !state.burgerOpen }));
     }
 
     buildActivitiesDropdown(): JSX.Element {
