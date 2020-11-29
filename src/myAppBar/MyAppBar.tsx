@@ -1,10 +1,32 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
+import { StaticContext } from "react-router";
 import { RouteComponentProps, withRouter } from "react-router-dom";
-import { EventbriteEventsContext } from "../eventbriteAPI/EventbriteApi";
-import Utility from "../utility/Utility";
+import Utility, { EventData } from "../utility/Utility";
 
-class MyAppBar extends React.Component<RouteComponentProps> {
+interface MyAppBarState {
+    loadingEvents: boolean;
+    events: Array<EventData>
+}
+
+class MyAppBar extends React.Component<RouteComponentProps, MyAppBarState> {
+
+    constructor(props: RouteComponentProps<{}, StaticContext, unknown> | Readonly<RouteComponentProps<{}, StaticContext, unknown>>) {
+        super(props);
+        this.state = {
+            loadingEvents: true,
+            events: []
+        }
+    }
+
+    componentDidMount() {
+        Utility.loadEventbriteEvents().then(events => {
+            this.setState({
+                loadingEvents: false,
+                events
+            })
+        })
+    }
 
     render() {
         return (
@@ -36,28 +58,7 @@ class MyAppBar extends React.Component<RouteComponentProps> {
                                 Attività {Utility.getCurrentYears()}
                             </a>
                             <div className="navbar-dropdown">
-                                <EventbriteEventsContext.Consumer>
-                                    {({ loadingEvents, events }) => {
-                                        if (loadingEvents) {
-                                            return (
-                                                <a className="navbar-item">
-                                                    Loading...
-                                                </a>);
-                                        }
-                                        else {
-                                            if (!events || events.length === 0) {
-                                                return <a className="navbar-item">Nessun evento</a>
-                                            }
-                                            return (
-                                                <React.Fragment>
-                                                    {events.map(ev => (
-                                                        <a key={ev.eventId} className="navbar-item" onClick={() => this.changeToRoute('/event/' + ev.eventId)}>{ev.eventName}</a>
-                                                    ))}
-                                                </React.Fragment>
-                                            )
-                                        }
-                                    }}
-                                </EventbriteEventsContext.Consumer>
+                                {this.buildActivitiesDropdown()}
                             </div>
 
                         </div>
@@ -96,6 +97,27 @@ class MyAppBar extends React.Component<RouteComponentProps> {
 
     openDrawer() {
         console.log('TODO:');
+    }
+
+    buildActivitiesDropdown(): JSX.Element {
+        if (this.state.loadingEvents) {
+            return (
+                <a className="navbar-item">
+                    Loading...
+                </a>);
+        }
+        else {
+            if (!this.state.events || this.state.events.length === 0) {
+                return <a className="navbar-item">Nessun evento</a>
+            }
+            return (
+                <React.Fragment>
+                    {this.state.events.map(ev => (
+                        <a key={ev.eventId} className="navbar-item" onClick={() => this.changeToRoute('/event/' + ev.eventId)}>{ev.eventName}</a>
+                    ))}
+                </React.Fragment>
+            )
+        }
     }
 }
 

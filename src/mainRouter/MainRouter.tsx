@@ -4,7 +4,6 @@ import {
     Switch,
     Route,
 } from "react-router-dom";
-import EventbriteApi from "../eventbriteAPI/EventbriteApi";
 import EventPage from "../eventPage/EventPage";
 import Home from "../home/Home";
 import MyAppBar from "../myAppBar/MyAppBar";
@@ -14,9 +13,7 @@ class MainRouter extends React.Component {
     render() {
         return (
             <Router>
-                <EventbriteApi>
-                    <MyAppBar />
-                </EventbriteApi>
+                <MyAppBar />
                 <Switch>
                     <Route exact path="/">
                         <Home />

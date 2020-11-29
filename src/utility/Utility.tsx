@@ -1,6 +1,9 @@
 import Axios from "axios";
-import { EventData } from "../eventbriteAPI/EventbriteApi";
 
+export interface EventData {
+    eventId: string,
+    eventName: string
+}
 export default class Utility {
 
     private static eventbriteEndpoint = 'https://www.eventbriteapi.com/v3';
