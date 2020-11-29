@@ -2,7 +2,7 @@ import React from "react";
 import { StaticContext } from "react-router";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import Utility from "../utility/Utility";
-
+import styles from './EventPage.module.css';
 interface EventPageState {
     eventFullDescription: JSX.Element
 }
@@ -31,8 +31,8 @@ class EventPage extends React.Component<RouteComponentProps, EventPageState>{
         /*(window as any).EBWidgets.createWidget({
             // Required
             widgetType: 'checkout',
-            eventId: this.state.eventId,
-            iframeContainerId: `eventbrite-widget-container-${this.state.eventId}`,
+            eventId: this.eventId,
+            iframeContainerId: `eventbrite-widget-container-${this.eventId}`,
 
             // Optional
             iframeContainerHeight: 425,  // Widget height in pixels. Defaults to a minimum of 425px if not provided
@@ -41,19 +41,27 @@ class EventPage extends React.Component<RouteComponentProps, EventPageState>{
     }
 
     render() {
-        // Opzione 1
-        /*return (
-            <iframe src={`https://www.eventbrite.it/e/biglietti-laboratorio-html-${this.state.eventId}`} width="100%" height="100%"></iframe>
-        );*/
         //Opzione 2
         /*return (
             <div>
-                <h1>Event id {this.state.eventId}</h1>
-                <div id={`eventbrite-widget-container-${this.state.eventId}`}></div>
+                <h1>Event id {this.eventId}</h1>
+                <div id={`eventbrite-widget-container-${this.eventId}`}></div>
             </div>
         );*/
         //Opzione 3
-        return this.state.eventFullDescription
+        return (
+            <div className={styles.container + ' content box'}>
+                {this.state.eventFullDescription}
+                <div className={styles.buttonContainer}>
+                    <a target="blank" href={`https://www.eventbrite.it/e/biglietti-laboratorio-html-${this.eventId}`} className="button is-link">
+                        <span>Vai su Eventbrite</span>
+                        <span className="icon is-small">
+                            <i className="fa fa-external-link"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        );
     }
 
     private getDescription() {
