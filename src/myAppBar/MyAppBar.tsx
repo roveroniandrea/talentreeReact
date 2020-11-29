@@ -95,6 +95,11 @@ class MyAppBar extends React.Component<RouteComponentProps, MyAppBarState> {
 
     changeToRoute(path: string) {
         this.props.history.push(path);
+        if (this.state.burgerOpen) {
+            this.setState({
+                burgerOpen: false
+            });
+        }
     }
 
     toggleDrawer() {
