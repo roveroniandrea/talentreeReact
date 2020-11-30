@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+import  { Component, Fragment } from 'react';
 import { StaticContext } from "react-router";
 import { RouteComponentProps, withRouter } from "react-router-dom";
-import Utility, { EventData } from "../utility/Utility";
+import  { EventData, Utility } from "../utility/Utility";
 
 interface MyAppBarState {
     loadingEvents: boolean;
@@ -10,7 +10,7 @@ interface MyAppBarState {
     burgerOpen: boolean;
 }
 
-class MyAppBar extends React.Component<RouteComponentProps, MyAppBarState> {
+class MyAppBar extends Component<RouteComponentProps, MyAppBarState> {
 
     constructor(props: RouteComponentProps<{}, StaticContext, unknown> | Readonly<RouteComponentProps<{}, StaticContext, unknown>>) {
         super(props);
@@ -118,11 +118,11 @@ class MyAppBar extends React.Component<RouteComponentProps, MyAppBarState> {
                 return <a className="navbar-item">Nessun evento</a>
             }
             return (
-                <React.Fragment>
+                <Fragment>
                     {this.state.events.map(ev => (
                         <a key={ev.eventId} className="navbar-item" onClick={() => this.changeToRoute('/event/' + ev.eventId)}>{ev.eventName}</a>
                     ))}
-                </React.Fragment>
+                </Fragment>
             )
         }
     }
