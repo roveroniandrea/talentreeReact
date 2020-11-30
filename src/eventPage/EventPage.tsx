@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createRef } from "react";
 import { StaticContext } from "react-router";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import Utility from "../utility/Utility";
@@ -10,6 +10,7 @@ interface EventPageState {
 class EventPage extends React.Component<RouteComponentProps, EventPageState>{
 
     eventId: string;
+    widgetRef: React.RefObject<HTMLDivElement>;
 
     constructor(props: RouteComponentProps<{}, StaticContext, unknown> | Readonly<RouteComponentProps<{}, StaticContext, unknown>>) {
         super(props);
@@ -17,6 +18,7 @@ class EventPage extends React.Component<RouteComponentProps, EventPageState>{
             eventFullDescription: <h1>Loading...</h1>
         };
         this.eventId = (this.props.match.params as any).eventId;
+        this.widgetRef = createRef<HTMLDivElement>();
     }
 
     componentDidUpdate() {
@@ -31,13 +33,14 @@ class EventPage extends React.Component<RouteComponentProps, EventPageState>{
     }
 
     render() {
+        let eventId = (this.props.match.params as any).eventId;
         //Opzione 3 + 2
         return (
             <React.Fragment>
                 <div className={styles.container + ' content box'}>
                     {this.state.eventFullDescription}
                     <div className={styles.buttonContainer}>
-                        <a target="blank" href={`https://www.eventbrite.it/e/${this.eventId}`} className="button is-link">
+                        <a target="blank" href={`https://www.eventbrite.it/e/${eventId}`} className="button is-link">
                             <span>Vai su Eventbrite</span>
                             <span className="icon is-small">
                                 <i className="fa fa-external-link"></i>
@@ -45,7 +48,7 @@ class EventPage extends React.Component<RouteComponentProps, EventPageState>{
                         </a>
                     </div>
                 </div>
-                <div id={`eventbrite-widget-container-${this.eventId}`}></div>
+                <div ref={this.widgetRef} id={`eventbrite-widget-container-${eventId}`}></div>
             </React.Fragment>
         );
     }
@@ -62,6 +65,9 @@ class EventPage extends React.Component<RouteComponentProps, EventPageState>{
     }
 
     private loadDescriptionAndTickets() {
+        if (this.widgetRef.current) {
+            this.widgetRef.current.innerHTML = '';
+        }
         // Opzione 2
         (window as any).EBWidgets.createWidget({
             // Required
