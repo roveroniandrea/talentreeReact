@@ -22,22 +22,12 @@ class EventPage extends React.Component<RouteComponentProps, EventPageState>{
     componentDidUpdate() {
         if ((this.props.match.params as any).eventId !== this.eventId) {
             this.eventId = (this.props.match.params as any).eventId;
-            this.getDescription();
+            this.loadDescriptionAndTickets();
         }
     }
 
     componentDidMount() {
-        // Opzione 2
-        (window as any).EBWidgets.createWidget({
-            // Required
-            widgetType: 'checkout',
-            eventId: this.eventId,
-            iframeContainerId: `eventbrite-widget-container-${this.eventId}`,
-
-            // Optional
-            iframeContainerHeight: 425,  // Widget height in pixels. Defaults to a minimum of 425px if not provided
-        });
-        this.getDescription();
+        this.loadDescriptionAndTickets();
     }
 
     render() {
@@ -47,7 +37,7 @@ class EventPage extends React.Component<RouteComponentProps, EventPageState>{
                 <div className={styles.container + ' content box'}>
                     {this.state.eventFullDescription}
                     <div className={styles.buttonContainer}>
-                        <a target="blank" href={`https://www.eventbrite.it/e/biglietti-laboratorio-html-${this.eventId}`} className="button is-link">
+                        <a target="blank" href={`https://www.eventbrite.it/e/${this.eventId}`} className="button is-link">
                             <span>Vai su Eventbrite</span>
                             <span className="icon is-small">
                                 <i className="fa fa-external-link"></i>
@@ -69,6 +59,20 @@ class EventPage extends React.Component<RouteComponentProps, EventPageState>{
             .then(desc => this.setState({
                 eventFullDescription: desc
             }));
+    }
+
+    private loadDescriptionAndTickets() {
+        // Opzione 2
+        (window as any).EBWidgets.createWidget({
+            // Required
+            widgetType: 'checkout',
+            eventId: this.eventId,
+            iframeContainerId: `eventbrite-widget-container-${this.eventId}`,
+
+            // Optional
+            iframeContainerHeight: 425,  // Widget height in pixels. Defaults to a minimum of 425px if not provided
+        });
+        this.getDescription();
     }
 }
 
