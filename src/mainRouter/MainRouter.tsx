@@ -7,6 +7,7 @@ import {
 import EventPage from "../eventPage/EventPage";
 import Home from "../home/Home";
 import MyAppBar from "../myAppBar/MyAppBar";
+import { YoutubeVideos } from '../youtubeVideos/YoutubeVideos';
 
 class MainRouter extends Component {
 
@@ -23,6 +24,9 @@ class MainRouter extends Component {
                     </Route>
                     <Route path="/event/:eventId">
                         <EventPage />
+                    </Route>
+                    <Route exact path="/gallery">
+                        <YoutubeVideos />
                     </Route>
                     <Route path="*">
                         <h1>Not implemented</h1>

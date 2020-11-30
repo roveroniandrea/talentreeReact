@@ -28,6 +28,7 @@ export class Utility {
 
     private static eventbriteEndpoint = 'https://www.eventbriteapi.com/v3';
     private static facebookEndpoint = 'https://graph.facebook.com/v9.0';
+    private static youtubeEndpoint = 'https://www.googleapis.com/youtube/v3';
 
     static getCurrentYears(): string {
         const curr = new Date();
@@ -89,7 +90,21 @@ export class Utility {
         });
     }
 
-    static getAppId(){
+    static getAppId() {
         return process.env.REACT_APP_FACEBOOK_APP_ID;
+    }
+
+    static loadYoutubeVideos(): Promise<string[]> {
+        return Axios.get(`${this.youtubeEndpoint}/search?key=${process.env.REACT_APP_GOOGLE_API_KEY}&channelId=${process.env.REACT_APP_YOUTUBE_CHANNEL_ID}&part=snippet,id&order=date&maxResults=20`)
+            .then(res => {
+                if (res.data.items) {
+                    return res.data.items
+                        .filter((item: { id: { kind: string; }; }) => item.id.kind === 'youtube#video')
+                        .map((i: { id: { videoId: any; }; }) => i.id.videoId);
+                }
+                else {
+                    return [];
+                }
+            });
     }
 }
