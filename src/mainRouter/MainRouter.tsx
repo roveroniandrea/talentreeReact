@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -8,7 +8,7 @@ import EventPage from "../eventPage/EventPage";
 import Home from "../home/Home";
 import MyAppBar from "../myAppBar/MyAppBar";
 
-class MainRouter extends React.Component {
+class MainRouter extends Component {
 
     render() {
         return (

@@ -1,16 +1,16 @@
-import React, { createRef } from "react";
+import { Component, createRef, Fragment, RefObject } from "react";
 import { StaticContext } from "react-router";
 import { RouteComponentProps, withRouter } from "react-router-dom";
-import Utility from "../utility/Utility";
+import { Utility } from '../utility/Utility';
 import styles from './EventPage.module.css';
 interface EventPageState {
     eventFullDescription: JSX.Element
 }
 
-class EventPage extends React.Component<RouteComponentProps, EventPageState>{
+class EventPage extends Component<RouteComponentProps, EventPageState>{
 
     eventId: string;
-    widgetRef: React.RefObject<HTMLDivElement>;
+    widgetRef: RefObject<HTMLDivElement>;
 
     constructor(props: RouteComponentProps<{}, StaticContext, unknown> | Readonly<RouteComponentProps<{}, StaticContext, unknown>>) {
         super(props);
@@ -36,7 +36,7 @@ class EventPage extends React.Component<RouteComponentProps, EventPageState>{
         let eventId = (this.props.match.params as any).eventId;
         //Opzione 3 + 2
         return (
-            <React.Fragment>
+            <Fragment>
                 <div className={styles.container + ' content box'}>
                     {this.state.eventFullDescription}
                     <div className={styles.buttonContainer}>
@@ -49,7 +49,7 @@ class EventPage extends React.Component<RouteComponentProps, EventPageState>{
                     </div>
                 </div>
                 <div ref={this.widgetRef} id={`eventbrite-widget-container-${eventId}`}></div>
-            </React.Fragment>
+            </Fragment>
         );
     }
 

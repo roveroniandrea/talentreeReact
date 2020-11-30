@@ -1,18 +1,32 @@
-import React from "react";
-import Utility from "../utility/Utility";
+import { Component, Fragment } from "react";
+import { FacebookPostData, Utility } from "../utility/Utility";
 
-class Home extends React.Component {
+interface HomeState {
+    posts: FacebookPostData[]
+}
+class Home extends Component<{}, HomeState> {
+
+    constructor(props: {} | Readonly<{}>) {
+        super(props);
+        this.state = {
+            posts: []
+        }
+    }
 
     componentDidMount() {
         Utility.getFacebookPosts()
             .then(posts => {
-                console.log(posts);
-            })
+                this.setState({
+                    posts
+                });
+            });
     }
 
     render() {
         return (
-            <h1>Home page!</h1>
+            <Fragment>
+                <h1>Home page!</h1>
+            </Fragment>
         );
     }
 }

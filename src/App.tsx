@@ -1,7 +1,7 @@
-import React from 'react';
+import { Component } from 'react';
 import MainRouter from './mainRouter/MainRouter';
 
-class App extends React.Component {
+class App extends Component {
   render() {
     return (
       <MainRouter></MainRouter>
