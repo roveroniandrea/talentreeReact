@@ -28,7 +28,7 @@ class EventPage extends React.Component<RouteComponentProps, EventPageState>{
 
     componentDidMount() {
         // Opzione 2
-        /*(window as any).EBWidgets.createWidget({
+        (window as any).EBWidgets.createWidget({
             // Required
             widgetType: 'checkout',
             eventId: this.eventId,
@@ -36,31 +36,27 @@ class EventPage extends React.Component<RouteComponentProps, EventPageState>{
 
             // Optional
             iframeContainerHeight: 425,  // Widget height in pixels. Defaults to a minimum of 425px if not provided
-        });*/
+        });
         this.getDescription();
     }
 
     render() {
-        //Opzione 2
-        /*return (
-            <div>
-                <h1>Event id {this.eventId}</h1>
-                <div id={`eventbrite-widget-container-${this.eventId}`}></div>
-            </div>
-        );*/
-        //Opzione 3
+        //Opzione 3 + 2
         return (
-            <div className={styles.container + ' content box'}>
-                {this.state.eventFullDescription}
-                <div className={styles.buttonContainer}>
-                    <a target="blank" href={`https://www.eventbrite.it/e/biglietti-laboratorio-html-${this.eventId}`} className="button is-link">
-                        <span>Vai su Eventbrite</span>
-                        <span className="icon is-small">
-                            <i className="fa fa-external-link"></i>
-                        </span>
-                    </a>
+            <React.Fragment>
+                <div className={styles.container + ' content box'}>
+                    {this.state.eventFullDescription}
+                    <div className={styles.buttonContainer}>
+                        <a target="blank" href={`https://www.eventbrite.it/e/biglietti-laboratorio-html-${this.eventId}`} className="button is-link">
+                            <span>Vai su Eventbrite</span>
+                            <span className="icon is-small">
+                                <i className="fa fa-external-link"></i>
+                            </span>
+                        </a>
+                    </div>
                 </div>
-            </div>
+                <div id={`eventbrite-widget-container-${this.eventId}`}></div>
+            </React.Fragment>
         );
     }
 
