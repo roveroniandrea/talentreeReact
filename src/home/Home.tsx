@@ -1,8 +1,9 @@
 import { Component, Fragment } from "react";
+import FacebookPost from '../facebookPost/FacebookPost';
 import { FacebookPostData, Utility } from "../utility/Utility";
 
 interface HomeState {
-    posts: FacebookPostData[]
+    posts: FacebookPostData[];
 }
 class Home extends Component<{}, HomeState> {
 
@@ -10,7 +11,7 @@ class Home extends Component<{}, HomeState> {
         super(props);
         this.state = {
             posts: []
-        }
+        };
     }
 
     componentDidMount() {
@@ -26,6 +27,7 @@ class Home extends Component<{}, HomeState> {
         return (
             <Fragment>
                 <h1>Home page!</h1>
+                {this.state.posts.map(post => <FacebookPost key={ post.fullId } post={ post } />) }
             </Fragment>
         );
     }

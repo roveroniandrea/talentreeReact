@@ -2,13 +2,27 @@ import Axios from "axios";
 
 export interface EventData {
     eventId: string,
-    eventName: string
+    eventName: string;
 }
 
-export interface FacebookPostData {
-    date: Date,
-    id: string,
-    message: string
+export class FacebookPostData {
+    readonly date: Date;
+    readonly fullId: string;
+    readonly message: string;
+
+    constructor(fullId: string, date: Date, message: string) {
+        this.date = date;
+        this.fullId = fullId;
+        this.message = message;
+    }
+
+    getPageId() {
+        return this.fullId.slice(0, this.fullId.indexOf('_'));
+    }
+
+    getPostId() {
+        return this.fullId.slice((this.fullId.indexOf('_') + 1));
+    }
 }
 export class Utility {
 
@@ -44,7 +58,7 @@ export class Utility {
                     resolve(events);
                 })
                 .catch(() => reject());
-        })
+        });
     }
 
     static getEventFullDescription(eventId: string): Promise<JSX.Element> {
@@ -55,7 +69,7 @@ export class Utility {
                 }
             })
                 .then(res => {
-                    resolve(<div dangerouslySetInnerHTML={({ __html: res.data.description })} />)
+                    resolve(<div dangerouslySetInnerHTML={ ({ __html: res.data.description }) } />);
                 })
                 .catch(() => reject());
         });
@@ -66,19 +80,16 @@ export class Utility {
             Axios.get(`${this.facebookEndpoint}/${process.env.REACT_APP_FACEBOOK_PAGE_ID}/feed?method=get&pretty=0&sdk=joey&suppress_http_code=1&access_token=${process.env.REACT_APP_FACEBOOK_ACCESS_TOKEN}`)
                 .then(response => {
                     if (response.data.data) {
-                        resolve(response.data.data.map(((d: { id: any; message: any; creation_time: any; }) => {
-                            const post: FacebookPostData = {
-                                id: d.id,
-                                message: d.message,
-                                date: d.creation_time
-                            }
-                            return post;
-                        })))
+                        resolve(response.data.data.map(((d: { id: string; creation_time: Date; message: string; }) => new FacebookPostData(d.id, d.creation_time, d.message))));
                     }
                     else {
                         reject();
                     }
                 });
-        })
+        });
+    }
+
+    static getAppId(){
+        return process.env.REACT_APP_FACEBOOK_APP_ID;
     }
 }
