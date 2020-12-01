@@ -2,13 +2,8 @@
     display: flex;
     justify-content: center;
 }
-.container > div > div:first-child {
+.parentDescription > div > div:first-child {
     text-align: center;
     font-size: xx-large;
     font-weight: bold;
-}
-
-.buttonContainer{
-    display: flex;
-    justify-content: center;
 }

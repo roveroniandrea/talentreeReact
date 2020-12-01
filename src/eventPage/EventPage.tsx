@@ -1,15 +1,14 @@
-import { Component, createRef, Fragment, RefObject } from "react";
+import { Component, createRef, RefObject } from "react";
 import { StaticContext } from "react-router";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { Utility } from '../utility/Utility';
+import { EventDetails } from './eventDetails/EventDetails';
 import styles from './EventPage.module.css';
 interface EventPageState {
-    eventFullDescription: JSX.Element
+    eventFullDescription: JSX.Element;
 }
 
 class EventPage extends Component<RouteComponentProps, EventPageState>{
-
-    eventId: string;
     widgetRef: RefObject<HTMLDivElement>;
 
     constructor(props: RouteComponentProps<{}, StaticContext, unknown> | Readonly<RouteComponentProps<{}, StaticContext, unknown>>) {
@@ -17,13 +16,11 @@ class EventPage extends Component<RouteComponentProps, EventPageState>{
         this.state = {
             eventFullDescription: <h1>Loading...</h1>
         };
-        this.eventId = (this.props.match.params as any).eventId;
         this.widgetRef = createRef<HTMLDivElement>();
     }
 
-    componentDidUpdate() {
-        if ((this.props.match.params as any).eventId !== this.eventId) {
-            this.eventId = (this.props.match.params as any).eventId;
+    componentDidUpdate(prevProps: RouteComponentProps<{}, StaticContext, unknown> | Readonly<RouteComponentProps<{}, StaticContext, unknown>>, _prevState: EventPageState) {
+        if ((this.props.match.params as any).eventId !== (prevProps.match.params as any).eventId) {
             this.loadDescriptionAndTickets();
         }
     }
@@ -33,23 +30,16 @@ class EventPage extends Component<RouteComponentProps, EventPageState>{
     }
 
     render() {
-        let eventId = (this.props.match.params as any).eventId;
+        const eventId = (this.props.match.params as any).eventId;
         //Opzione 3 + 2
         return (
-            <Fragment>
-                <div className={styles.container + ' content box'}>
-                    {this.state.eventFullDescription}
-                    <div className={styles.buttonContainer}>
-                        <a target="blank" href={`https://www.eventbrite.it/e/${eventId}`} className="button is-link">
-                            <span>Vai su Eventbrite</span>
-                            <span className="icon is-small">
-                                <i className="fa fa-external-link"></i>
-                            </span>
-                        </a>
-                    </div>
+            <div className={ styles.container + ' content box columns' }>
+                <div className={ 'column ' + styles.parentDescription }>
+                    <EventDetails eventId={ eventId } />
+                    { this.state.eventFullDescription }
+                    <div ref={ this.widgetRef } id={ `eventbrite-widget-container-${eventId}` }></div>
                 </div>
-                <div ref={this.widgetRef} id={`eventbrite-widget-container-${eventId}`}></div>
-            </Fragment>
+            </div>
         );
     }
 
@@ -58,13 +48,14 @@ class EventPage extends Component<RouteComponentProps, EventPageState>{
             eventFullDescription: <h1>Loading...</h1>
         });
         //Opzione 3
-        Utility.getEventFullDescription(this.eventId)
+        Utility.getEventFullDescription((this.props.match.params as any).eventId)
             .then(desc => this.setState({
                 eventFullDescription: desc
             }));
     }
 
     private loadDescriptionAndTickets() {
+        const eventId = (this.props.match.params as any).eventId;
         if (this.widgetRef.current) {
             this.widgetRef.current.innerHTML = '';
         }
@@ -72,8 +63,8 @@ class EventPage extends Component<RouteComponentProps, EventPageState>{
         (window as any).EBWidgets.createWidget({
             // Required
             widgetType: 'checkout',
-            eventId: this.eventId,
-            iframeContainerId: `eventbrite-widget-container-${this.eventId}`,
+            eventId: eventId,
+            iframeContainerId: `eventbrite-widget-container-${eventId}`,
 
             // Optional
             iframeContainerHeight: 425,  // Widget height in pixels. Defaults to a minimum of 425px if not provided
