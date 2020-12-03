@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { EventData, Utility } from '../../utility/Utility';
+import { EventBriteAPI, EventData } from '../../utility/EventbriteAPI';
 import styles from './EventDetails.module.css';
 
 interface EventDetailsProps {
@@ -74,7 +74,7 @@ export class EventDetails extends Component<EventDetailsProps, EventDetailsState
     }
 
     private getEventDetails() {
-        Utility.getEventById(this.props.eventId)
+        EventBriteAPI.getEventById(this.props.eventId)
             .then(ev => this.setState({
                 eventData: ev
             }));

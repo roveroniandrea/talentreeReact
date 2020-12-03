@@ -1,5 +1,5 @@
 import { Component, Fragment } from 'react';
-import { Utility } from '../utility/Utility';
+import { YoutubeAPI } from '../utility/YoutubeAPI';
 
 interface YoutubeVideosState {
     videoIds: string[];
@@ -14,7 +14,7 @@ export class YoutubeVideos extends Component<{}, YoutubeVideosState> {
     }
 
     componentDidMount() {
-        Utility.loadYoutubeVideos()
+        YoutubeAPI.loadYoutubeVideos()
             .then(videoIds => this.setState({ videoIds }));
     }
 

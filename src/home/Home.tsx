@@ -1,6 +1,6 @@
 import { Component, Fragment } from "react";
 import FacebookPost from '../facebookPost/FacebookPost';
-import { FacebookPostData, Utility } from "../utility/Utility";
+import { FacebookAPI, FacebookPostData } from '../utility/FacebookAPI';
 
 interface HomeState {
     posts: FacebookPostData[];
@@ -15,7 +15,7 @@ class Home extends Component<{}, HomeState> {
     }
 
     componentDidMount() {
-        Utility.getFacebookPosts()
+        FacebookAPI.getFacebookPosts()
             .then(posts => {
                 this.setState({
                     posts

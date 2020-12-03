@@ -2,7 +2,8 @@
 import  { Component, Fragment } from 'react';
 import { StaticContext } from "react-router";
 import { RouteComponentProps, withRouter } from "react-router-dom";
-import  { EventData, Utility } from "../utility/Utility";
+import { EventBriteAPI, EventData } from '../utility/EventbriteAPI';
+import  { Utility } from "../utility/Utility";
 
 interface MyAppBarState {
     loadingEvents: boolean;
@@ -22,7 +23,7 @@ class MyAppBar extends Component<RouteComponentProps, MyAppBarState> {
     }
 
     componentDidMount() {
-        Utility.loadEventbriteEvents().then(events => {
+        EventBriteAPI.loadEventbriteEvents().then(events => {
             this.setState({
                 loadingEvents: false,
                 events

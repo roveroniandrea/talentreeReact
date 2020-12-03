@@ -1,7 +1,7 @@
 import { Component, createRef, RefObject } from "react";
 import { StaticContext } from "react-router";
 import { RouteComponentProps, withRouter } from "react-router-dom";
-import { Utility } from '../utility/Utility';
+import { EventBriteAPI } from '../utility/EventbriteAPI';
 import { EventDetails } from './eventDetails/EventDetails';
 import styles from './EventPage.module.css';
 interface EventPageState {
@@ -48,7 +48,7 @@ class EventPage extends Component<RouteComponentProps, EventPageState>{
             eventFullDescription: <h1>Loading...</h1>
         });
         //Opzione 3
-        Utility.getEventFullDescription((this.props.match.params as any).eventId)
+        EventBriteAPI.getEventFullDescription((this.props.match.params as any).eventId)
             .then(desc => this.setState({
                 eventFullDescription: desc
             }));
