@@ -13,10 +13,14 @@ export interface EventData {
 }
 
 export class EventBriteAPI {
+    /** Endpoint of Eventbrite APIs */
     private static eventbriteEndpoint = 'https://www.eventbriteapi.com/v3';
 
+    /** Array of all the events */
     private static loadedEvents: EventData[] = null;
+    /** True if is currently requesting events from the endpoint */
     private static isLoadingEvents = false;
+    /** Promise used to retrieve the events after loaded */
     private static loadingEventsPromise: Promise<EventData[]> = null;
 
     /** Returns all the events from Eventbrite */
@@ -38,6 +42,7 @@ export class EventBriteAPI {
 
     }
 
+    /** Starts loading the events from the endpoint. Triggers `this.loadingEventsPromise`*/
     private static startLoadingEvents() {
         this.isLoadingEvents = true;
         this.loadingEventsPromise = Axios.get(`${this.eventbriteEndpoint}/organizations/${process.env.REACT_APP_EVENTBRITE_ORGANIZATION_ID}/events/?order_by=start_asc`,
@@ -48,7 +53,6 @@ export class EventBriteAPI {
             })
             .then(res => {
                 this.isLoadingEvents = false;
-                console.log(res.data.events);
                 if (res.data.events) {
                     this.loadedEvents = res.data.events.map((ev: any) => {
                         const event: EventData = {
@@ -83,6 +87,7 @@ export class EventBriteAPI {
             });
     }
 
+    /** Returns an event given his id */
     static async getEventById(eventId: string): Promise<EventData> {
         if (this.loadedEvents) {
             return Promise.resolve(this.loadedEvents.find(ev => ev.eventId === eventId));
@@ -90,13 +95,26 @@ export class EventBriteAPI {
         else {
             if (!this.isLoadingEvents) {
                 this.startLoadingEvents();
-                await this.loadingEventsPromise;
-                return this.getEventById(eventId);
             }
-            else {
-                await this.loadingEventsPromise;
-                return this.getEventById(eventId);
+            await this.loadingEventsPromise;
+            return this.getEventById(eventId);
+        }
+    }
+
+    /** Returns the events after the current date or max tot time before */
+    static async getNearEvents(): Promise<EventData[]> {
+        if (this.loadedEvents) {
+            let now = new Date();
+            let maxPassedTime = 3 * 24 * 60 * 60 * 1000;
+            let result = this.loadedEvents.filter(ev => (now.getTime() - ev.start.getTime()) < maxPassedTime);
+            return Promise.resolve(result);
+        }
+        else {
+            if (!this.isLoadingEvents) {
+                this.startLoadingEvents();
             }
+            await this.loadingEventsPromise;
+            return this.getNearEvents();
         }
     }
 }
