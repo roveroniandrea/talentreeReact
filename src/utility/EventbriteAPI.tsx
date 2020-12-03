@@ -20,19 +20,22 @@ export class EventBriteAPI {
     private static loadingEventsPromise: Promise<EventData[]> = null;
 
     /** Returns all the events from Eventbrite */
-    static loadEventbriteEvents(): Promise<EventData[]> {
-        if (!this.isLoadingEvents) {
-            if (this.loadedEvents) {
-                return Promise.resolve(this.loadedEvents);
+    static getEventbriteEvents(): Promise<EventData[]> {
+        if (this.loadedEvents) {
+            return Promise.resolve(this.loadedEvents);
+
+        }
+        else {
+            if (!this.isLoadingEvents) {
+                this.startLoadingEvents();
+                return this.loadingEventsPromise;
+
             }
             else {
-                this.startLoadingEvents();
                 return this.loadingEventsPromise;
             }
         }
-        else {
-            return this.loadingEventsPromise;
-        }
+
     }
 
     private static startLoadingEvents() {
