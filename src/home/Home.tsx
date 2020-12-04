@@ -27,7 +27,7 @@ class Home extends Component<{}, HomeState> {
                 });
             });
 
-        EventBriteAPI.getNearEvents()
+        EventBriteAPI.getNextActivities()
             .then(events => {
                 //TODO: controlla correttezza
                 let nearest = events.sort((e1, e2) => e1.start.getTime() - e2.start.getTime());

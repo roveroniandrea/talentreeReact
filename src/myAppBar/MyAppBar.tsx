@@ -23,7 +23,7 @@ class MyAppBar extends Component<RouteComponentProps, MyAppBarState> {
     }
 
     componentDidMount() {
-        EventBriteAPI.getNearEvents().then(events => {
+        EventBriteAPI.getNextActivities().then(events => {
             this.setState({
                 loadingEvents: false,
                 events

@@ -12,35 +12,22 @@ export interface EventData {
     };
 }
 
+export interface EventsGroups {
+    talentree: EventData[],
+    nextActivities: EventData[],
+    old: EventData[],
+};
+
 export class EventBriteAPI {
     /** Endpoint of Eventbrite APIs */
     private static eventbriteEndpoint = 'https://www.eventbriteapi.com/v3';
 
-    /** Array of all the events */
-    private static loadedEvents: EventData[] = null;
+    /** All the events */
+    private static loadedEvents: EventsGroups = null;
     /** True if is currently requesting events from the endpoint */
     private static isLoadingEvents = false;
     /** Promise used to retrieve the events after loaded */
-    private static loadingEventsPromise: Promise<EventData[]> = null;
-
-    /** Returns all the events from Eventbrite */
-    static getEventbriteEvents(): Promise<EventData[]> {
-        if (this.loadedEvents) {
-            return Promise.resolve(this.loadedEvents);
-
-        }
-        else {
-            if (!this.isLoadingEvents) {
-                this.startLoadingEvents();
-                return this.loadingEventsPromise;
-
-            }
-            else {
-                return this.loadingEventsPromise;
-            }
-        }
-
-    }
+    private static loadingEventsPromise: Promise<EventsGroups> = null;
 
     /** Starts loading the events from the endpoint. Triggers `this.loadingEventsPromise`*/
     private static startLoadingEvents() {
@@ -54,7 +41,12 @@ export class EventBriteAPI {
             .then(res => {
                 this.isLoadingEvents = false;
                 if (res.data.events) {
-                    this.loadedEvents = res.data.events.map((ev: any) => {
+                    this.loadedEvents = {
+                        nextActivities: [],
+                        old: [],
+                        talentree: []
+                    };
+                    res.data.events.forEach((ev: any) => {
                         const event: EventData = {
                             eventId: ev.id,
                             eventName: ev.name.text,
@@ -65,7 +57,22 @@ export class EventBriteAPI {
                                 width: ev.logo.crop_mask.width
                             }
                         };
-                        return event;
+                        let now = new Date().getTime();
+                        let maxPassedTime = 3 * 24 * 60 * 60 * 1000;
+                        if (event.start.getTime() - now < - maxPassedTime) {
+                            this.loadedEvents.old.push(event);
+                        }
+                        else {
+                            if (ev.format_id === '14') { //Game or Competition
+                                this.loadedEvents.nextActivities.push(event);
+                                console.log(event, 'next');
+                            }
+                            else {
+                                //TODO: eventi generali?
+                                this.loadedEvents.talentree.push(event);
+                                console.log(event, 'talentree');
+                            }
+                        }
                     });
                     return this.loadedEvents;
                 }
@@ -90,7 +97,14 @@ export class EventBriteAPI {
     /** Returns an event given his id */
     static async getEventById(eventId: string): Promise<EventData> {
         if (this.loadedEvents) {
-            return Promise.resolve(this.loadedEvents.find(ev => ev.eventId === eventId));
+            let ev = this.loadedEvents.nextActivities.find(ev => ev.eventId === eventId);
+            if (!ev) {
+                ev = this.loadedEvents.talentree.find(ev => ev.eventId === eventId);
+            }
+            if (!ev) {
+                ev = this.loadedEvents.old.find(ev => ev.eventId === eventId);
+            }
+            return Promise.resolve(ev);
         }
         else {
             if (!this.isLoadingEvents) {
@@ -102,19 +116,16 @@ export class EventBriteAPI {
     }
 
     /** Returns the events after the current date or max tot time before */
-    static async getNearEvents(): Promise<EventData[]> {
+    static async getNextActivities(): Promise<EventData[]> {
         if (this.loadedEvents) {
-            let now = new Date();
-            let maxPassedTime = 3 * 24 * 60 * 60 * 1000;
-            let result = this.loadedEvents.filter(ev => (now.getTime() - ev.start.getTime()) < maxPassedTime);
-            return Promise.resolve(result);
+            return Promise.resolve(this.loadedEvents.nextActivities);
         }
         else {
             if (!this.isLoadingEvents) {
                 this.startLoadingEvents();
             }
             await this.loadingEventsPromise;
-            return this.getNearEvents();
+            return this.getNextActivities();
         }
     }
 }
