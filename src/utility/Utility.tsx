@@ -1,5 +1,7 @@
 /** Class to interface with APIs */
 export class Utility {
+    private static formatOptions: Intl.DateTimeFormatOptions = { year: "numeric", month: "long", day: "numeric", hour12: false, minute: "numeric", hour: 'numeric' };
+
     /** Returns the current school year, i.e. 2020 - 2021 */
     static getCurrentYears(): string {
         const curr = new Date();
@@ -9,5 +11,9 @@ export class Utility {
             year--;
         }
         return `${year} - ${year + 1}`;
+    }
+
+    static formatDate(date: Date) {
+        return date.toLocaleDateString(undefined, this.formatOptions);
     }
 }

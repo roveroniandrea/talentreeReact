@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { FacebookAPI, FacebookPostData } from '../utility/FacebookAPI';
+import { FacebookAPI, FacebookPostData } from '../../utility/FacebookAPI';
 
 interface FacebookPostProps {
     post: FacebookPostData;

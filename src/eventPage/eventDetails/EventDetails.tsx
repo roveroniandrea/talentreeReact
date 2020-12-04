@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { EventBriteAPI, EventData } from '../../utility/EventbriteAPI';
+import { Utility } from '../../utility/Utility';
 import styles from './EventDetails.module.css';
 
 interface EventDetailsProps {
@@ -10,8 +11,6 @@ interface EventDetailsState {
     eventData: EventData;
 }
 export class EventDetails extends Component<EventDetailsProps, EventDetailsState> {
-
-    private formatOptions: Intl.DateTimeFormatOptions = { year: "numeric", month: "long", day: "numeric", hour12: false, minute: "numeric", hour: 'numeric' };
 
     constructor(props: EventDetailsProps | Readonly<EventDetailsProps>) {
         super(props);
@@ -53,7 +52,7 @@ export class EventDetails extends Component<EventDetailsProps, EventDetailsState
                                 <p className={ styles.text }>
                                     <strong>{ this.state.eventData.eventName }</strong>
                                     <br />
-                                    { this.state.eventData.start.toLocaleDateString(undefined, this.formatOptions) }
+                                    { Utility.formatDate(this.state.eventData.start) }
                                 </p>
                             </div>
                             <nav className="level is-mobile">
