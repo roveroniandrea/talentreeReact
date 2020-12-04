@@ -94,36 +94,37 @@ export class EventBriteAPI {
 
     /** Returns an event given his id */
     static async getEventById(eventId: string): Promise<EventData> {
-        if (this.loadedEvents) {
-            let ev = this.loadedEvents.nextActivities.find(ev => ev.eventId === eventId);
+        return this.defaultEventRequest(loadedEvents => {
+            let ev = loadedEvents.nextActivities.find(ev => ev.eventId === eventId);
             if (!ev) {
-                ev = this.loadedEvents.talentree.find(ev => ev.eventId === eventId);
+                ev = loadedEvents.talentree.find(ev => ev.eventId === eventId);
             }
             if (!ev) {
-                ev = this.loadedEvents.old.find(ev => ev.eventId === eventId);
+                ev = loadedEvents.old.find(ev => ev.eventId === eventId);
             }
-            return Promise.resolve(ev);
-        }
-        else {
-            if (!this.isLoadingEvents) {
-                this.startLoadingEvents();
-            }
-            await this.loadingEventsPromise;
-            return this.getEventById(eventId);
-        }
+            return ev;
+        });
     }
 
     /** Returns the events after the current date or max tot time before */
     static async getNextActivities(): Promise<EventData[]> {
+        return this.defaultEventRequest(loadedEvents => loadedEvents.nextActivities);
+    }
+
+    static async getTalentreeEvents(): Promise<EventData[]> {
+        return this.defaultEventRequest(loadedEvents => loadedEvents.talentree);
+    }
+
+    private static async defaultEventRequest<T>(callback: (loadedEvents: EventsGroups) => T): Promise<T> {
         if (this.loadedEvents) {
-            return Promise.resolve(this.loadedEvents.nextActivities);
+            return Promise.resolve(callback(this.loadedEvents));
         }
         else {
             if (!this.isLoadingEvents) {
                 this.startLoadingEvents();
             }
             await this.loadingEventsPromise;
-            return this.getNextActivities();
+            return this.defaultEventRequest(callback);
         }
     }
 }

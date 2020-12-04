@@ -7,6 +7,7 @@ import {
 import EventPage from "../eventPage/EventPage";
 import Home from "../home/Home";
 import MyAppBar from "../myAppBar/MyAppBar";
+import TalentreePage  from '../talentreePage/TalentreePage';
 import { YoutubeVideos } from '../youtubeVideos/YoutubeVideos';
 
 class MainRouter extends Component {
@@ -20,7 +21,7 @@ class MainRouter extends Component {
                         <Home />
                     </Route>
                     <Route exact path="/talentree">
-                        <h1>Pagina Talentree</h1>
+                        <TalentreePage/>
                     </Route>
                     <Route path="/event/:eventId">
                         <EventPage />

@@ -49,7 +49,7 @@ class Home extends Component<RouteComponentProps, HomeState> {
                     <div className="box">
                         <h1 className="title">Prossimi eventi</h1>
                         { this.state.recentEvents.map((ev: EventData) => (
-                            <div className={ "button " + style.eventButton } key={ ev.eventId } onClick={ () => this.navigateToEvent(ev) }>
+                            <div className={ "button " + style.eventButton } key={ ev.eventId } onClick={ () => Utility.navigateToEvent(ev, this.props.history) }>
                                 <div className="block">
                                     <p className="title is-4">{ ev.eventName }</p>
                                     <p className="subtitle is-6">{ Utility.formatDate(ev.start) }</p>
@@ -60,10 +60,6 @@ class Home extends Component<RouteComponentProps, HomeState> {
                 </div>
             </div>
         );
-    }
-
-    navigateToEvent(event: EventData) {
-        this.props.history.push('/event/' + event.eventId);
     }
 }
 

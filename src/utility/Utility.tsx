@@ -1,3 +1,6 @@
+import { EventData } from './EventbriteAPI';
+import {History} from 'history'
+
 /** Class to interface with APIs */
 export class Utility {
     private static formatOptions: Intl.DateTimeFormatOptions = { year: "numeric", month: "long", day: "numeric", hour12: false, minute: "numeric", hour: 'numeric' };
@@ -15,5 +18,9 @@ export class Utility {
 
     static formatDate(date: Date) {
         return date.toLocaleDateString(undefined, this.formatOptions);
+    }
+
+    static navigateToEvent(event: EventData, history: History) {
+        history.push('/event/' + event.eventId);
     }
 }
