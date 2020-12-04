@@ -65,12 +65,10 @@ export class EventBriteAPI {
                         else {
                             if (ev.format_id === '14') { //Game or Competition
                                 this.loadedEvents.nextActivities.push(event);
-                                console.log(event, 'next');
                             }
                             else {
                                 //TODO: eventi generali?
                                 this.loadedEvents.talentree.push(event);
-                                console.log(event, 'talentree');
                             }
                         }
                     });

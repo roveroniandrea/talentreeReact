@@ -1,17 +1,19 @@
-import { Component, Fragment } from "react";
+import { Component } from "react";
 import FacebookPost from './facebookPost/FacebookPost';
 import { FacebookAPI, FacebookPostData } from '../utility/FacebookAPI';
 import style from './Home.module.css';
 import { EventBriteAPI, EventData } from '../utility/EventbriteAPI';
 import { Utility } from '../utility/Utility';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { StaticContext } from 'react-router';
 
 interface HomeState {
     posts: FacebookPostData[];
     recentEvents: EventData[];
 }
-class Home extends Component<{}, HomeState> {
+class Home extends Component<RouteComponentProps, HomeState> {
 
-    constructor(props: {} | Readonly<{}>) {
+    constructor(props: RouteComponentProps<{}, StaticContext, unknown> | Readonly<RouteComponentProps<{}, StaticContext, unknown>>) {
         super(props);
         this.state = {
             posts: [],
@@ -45,23 +47,24 @@ class Home extends Component<{}, HomeState> {
                 </div>
                 <div className="column">
                     <div className="box">
-                        <h1 className="title">Eventi recenti</h1>
-                        { this.state.recentEvents.map(ev => (
-                            <Fragment>
-                                <hr />
-                                <div className="button">
-                                    <div className="block" key={ ev.eventId }>
-                                        <p className="title is-4">{ ev.eventName }</p>
-                                        <p className="subtitle is-6">{ Utility.formatDate(ev.start) }</p>
-                                    </div>
+                        <h1 className="title">Prossimi eventi</h1>
+                        { this.state.recentEvents.map((ev: EventData) => (
+                            <div className={ "button " + style.eventButton } key={ ev.eventId } onClick={ () => this.navigateToEvent(ev) }>
+                                <div className="block">
+                                    <p className="title is-4">{ ev.eventName }</p>
+                                    <p className="subtitle is-6">{ Utility.formatDate(ev.start) }</p>
                                 </div>
-                            </Fragment>
+                            </div>
                         )) }
                     </div>
                 </div>
             </div>
         );
     }
+
+    navigateToEvent(event: EventData) {
+        this.props.history.push('/event/' + event.eventId);
+    }
 }
 
-export default Home;
+export default withRouter(Home);
