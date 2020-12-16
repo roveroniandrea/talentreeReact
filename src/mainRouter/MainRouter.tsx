@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import EventPage from "../eventPage/EventPage";
 import Home from "../home/Home";
-import MyAppBar from "../myAppBar/MyAppBar";
+import AppBar from "../AppBar/AppBar";
 import TalentreePage  from '../talentreePage/TalentreePage';
 import { YoutubeVideos } from '../youtubeVideos/YoutubeVideos';
 
@@ -15,7 +15,7 @@ class MainRouter extends Component {
     render() {
         return (
             <Router>
-                <MyAppBar />
+                <AppBar/>
                 <Switch>
                     <Route exact path="/">
                         <Home />
