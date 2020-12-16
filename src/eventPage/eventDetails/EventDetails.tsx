@@ -1,81 +1,77 @@
-import { Component } from 'react';
+import { CSSProperties, useEffect, useState } from 'react';
 import { EventBriteAPI, EventData } from '../../utility/EventbriteAPI';
 import { Utility } from '../../utility/Utility';
-import styles from './EventDetails.module.css';
-
 interface EventDetailsProps {
     eventId: string;
 }
 
-interface EventDetailsState {
-    eventData: EventData;
-}
-export class EventDetails extends Component<EventDetailsProps, EventDetailsState> {
-
-    constructor(props: EventDetailsProps | Readonly<EventDetailsProps>) {
-        super(props);
-        this.state = {
-            eventData: null
-        };
+const styles: {
+    [ key: string ]: CSSProperties;
+} = {
+    parent: {
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center'
+    },
+    containerBox: {
+        display: 'flex',
+        justifyContent: 'center',
+        width: 'fit-content'
+    },
+    text: {
+        fontSize: 'medium',
+        fontWeight: 'normal'
     }
+};
 
-    componentDidMount() {
-        this.getEventDetails();
-    }
+export default function EventDetails(props: EventDetailsProps) {
+    const [ eventData, setEventData ] = useState<EventData>(null);
 
-    componentDidUpdate(prevProps: EventDetailsProps | Readonly<EventDetailsProps>, _prevState: EventDetailsState) {
-        if (this.props.eventId !== prevProps.eventId) {
-            this.getEventDetails();
-        }
-    }
+    useEffect(() => {
+        EventBriteAPI.getEventById(props.eventId)
+            .then(ev => setEventData(ev));
+    });
 
-    render() {
-        const aspectRatio = this.state.eventData ? this.state.eventData.logo.width / this.state.eventData.logo.height : 1;
-        const maxWidth = 350;
-        const maxHeigth = maxWidth / aspectRatio;
-        return (
-            <div className={ styles.parent }>
-                <div className={ 'box ' + styles.containerBox }>
-                    { this.state.eventData ? <article className="media is-align-items-center">
-                        <div className="media-left">
-                            <figure className="image" style={ ({
-                                width: this.state.eventData.logo.width,
-                                height: this.state.eventData.logo.height,
-                                maxWidth: `${maxWidth}px`,
-                                maxHeight: `${maxHeigth}px`
-                            }) }>
-                                <img src={ this.state.eventData.logo.url } alt="logoUrl" />
-                            </figure>
+    const aspectRatio = eventData ? eventData.logo.width / eventData.logo.height : 1;
+    const maxWidth = 350;
+    const maxHeigth = maxWidth / aspectRatio;
+
+
+    return (
+        <div style={ styles.parent }>
+            <div className='box' style={ styles.containerBox }>
+                { eventData ? <article className="media is-align-items-center">
+                    <div className="media-left">
+                        <figure className="image" style={ ({
+                            width: eventData.logo.width,
+                            height: eventData.logo.height,
+                            maxWidth: `${maxWidth}px`,
+                            maxHeight: `${maxHeigth}px`
+                        }) }>
+                            <img src={ eventData.logo.url } alt="logoUrl" />
+                        </figure>
+                    </div>
+                    <div className="media-content">
+                        <div className="content">
+                            <p style={ styles.text }>
+                                <strong>{ eventData.eventName }</strong>
+                                <br />
+                                { Utility.formatDate(eventData.start) }
+                            </p>
                         </div>
-                        <div className="media-content">
-                            <div className="content">
-                                <p className={ styles.text }>
-                                    <strong>{ this.state.eventData.eventName }</strong>
-                                    <br />
-                                    { Utility.formatDate(this.state.eventData.start) }
-                                </p>
+                        <nav className="level is-mobile">
+                            <div className="level-left">
+                                <a target="blank" href={ `https://www.eventbrite.it/e/${eventData.eventId}` } className="button is-link">
+                                    <span>Vai su Eventbrite</span>
+                                    <span className="icon is-small">
+                                        <i className="fa fa-external-link"></i>
+                                    </span>
+                                </a>
                             </div>
-                            <nav className="level is-mobile">
-                                <div className="level-left">
-                                    <a target="blank" href={ `https://www.eventbrite.it/e/${this.state.eventData.eventId}` } className="button is-link">
-                                        <span>Vai su Eventbrite</span>
-                                        <span className="icon is-small">
-                                            <i className="fa fa-external-link"></i>
-                                        </span>
-                                    </a>
-                                </div>
-                            </nav>
-                        </div>
-                    </article> : null }
-                </div>
+                        </nav>
+                    </div>
+                </article> : null }
             </div>
-        );
-    }
-
-    private getEventDetails() {
-        EventBriteAPI.getEventById(this.props.eventId)
-            .then(ev => this.setState({
-                eventData: ev
-            }));
-    }
+        </div>
+    );
 }

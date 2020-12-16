@@ -1,9 +1,0 @@
-.container{
-    display: flex;
-    justify-content: center;
-}
-.parentDescription > div > div:first-child {
-    text-align: center;
-    font-size: xx-large;
-    font-weight: bold;
-}

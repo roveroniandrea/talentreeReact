@@ -7,7 +7,7 @@ import EventPage from "../eventPage/EventPage";
 import Home from "../home/Home";
 import AppBar from "../AppBar/AppBar";
 import TalentreePage from '../talentreePage/TalentreePage';
-import { YoutubeVideos } from '../youtubeVideos/YoutubeVideos';
+import YoutubeVideos from '../youtubeVideos/YoutubeVideos';
 
 export default function MainRouter() {
     return (
