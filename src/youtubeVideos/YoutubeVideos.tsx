@@ -1,30 +1,19 @@
-import { Component, Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { YoutubeAPI } from '../utility/YoutubeAPI';
 
-interface YoutubeVideosState {
-    videoIds: string[];
-}
-export class YoutubeVideos extends Component<{}, YoutubeVideosState> {
+export default function YoutubeVideos() {
+    const [ videoIds, setVideoIds ] = useState<string[]>([]);
 
-    constructor(props: {} | Readonly<{}>) {
-        super(props);
-        this.state = {
-            videoIds: []
-        };
-    }
-
-    componentDidMount() {
+    useEffect(() => {
         YoutubeAPI.loadYoutubeVideos()
-            .then(videoIds => this.setState({ videoIds }));
-    }
+            .then(videoIds => setVideoIds(videoIds));
+    }, []);
 
-    render() {
-        return (
-            <Fragment>
-                {this.state.videoIds.map(id => {
-                    return <iframe title={ id } key={ id } width="560" height="315" src={ `https://www.youtube.com/embed/${id}` } frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />;
-                }) }
-            </Fragment>
-        );
-    }
+    return (
+        <Fragment>
+            {videoIds.map(id => {
+                return <iframe title={ id } key={ id } width="560" height="315" src={ `https://www.youtube.com/embed/${id}` } frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />;
+            }) }
+        </Fragment>
+    );
 }
