@@ -42,14 +42,14 @@ class Home extends Component<RouteComponentProps, HomeState> {
     render() {
         return (
             <div className="columns is-desktop">
-                <div className={ `column is-three-quarters ${style.postColumn}` }>
+                <div className={ `column is-three-quarters ${style.postColumn}` } style={ ({ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }) }>
                     { this.state.posts.map(post => <FacebookPost key={ post.fullId } post={ post } />) }
                 </div>
                 <div className="column">
                     <div className="box">
                         <h1 className="title">Prossimi eventi</h1>
                         { this.state.recentEvents.map((ev: EventData) => (
-                            <div className={ "button " + style.eventButton } key={ ev.eventId } onClick={ () => Utility.navigateToEvent(ev, this.props.history) }>
+                            <div className={ "button is-large " + style.eventButton } key={ ev.eventId } onClick={ () => Utility.navigateToEvent(ev, this.props.history) }>
                                 <div className="block">
                                     <p className="title is-4">{ ev.eventName }</p>
                                     <p className="subtitle is-6">{ Utility.formatDate(ev.start) }</p>
