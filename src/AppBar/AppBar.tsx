@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Fragment, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { EventBriteAPI, EventData } from '../utility/EventbriteAPI';
+import { EventBriteAPI, EventData } from '../core/eventbrite/EventbriteAPI';
 import { Utility } from '../utility/Utility';
 
 interface EventsState {

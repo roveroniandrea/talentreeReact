@@ -1,5 +1,5 @@
 import { CSSProperties, useEffect, useState } from 'react';
-import { EventBriteAPI, EventData } from '../../utility/EventbriteAPI';
+import { EventBriteAPI, EventData } from '../../core/eventbrite/EventbriteAPI';
 import { Utility } from '../../utility/Utility';
 interface EventDetailsProps {
     eventId: string;

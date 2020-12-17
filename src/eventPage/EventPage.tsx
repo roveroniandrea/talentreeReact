@@ -1,6 +1,6 @@
 import { createRef, CSSProperties, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { EventBriteAPI } from '../utility/EventbriteAPI';
+import { EventBriteAPI } from '../core/eventbrite/EventbriteAPI';
 import EventDetails from './eventDetails/EventDetails';
 
 const styles: {

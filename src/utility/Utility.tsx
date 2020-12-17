@@ -1,4 +1,4 @@
-import { EventData } from './EventbriteAPI';
+import { EventData } from '../core/eventbrite/EventbriteAPI';
 import {History} from 'history'
 
 /** Class to interface with APIs */

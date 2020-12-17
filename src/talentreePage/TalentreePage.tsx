@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import { EventBriteAPI, EventData } from '../utility/EventbriteAPI';
+import { EventBriteAPI, EventData } from '../core/eventbrite/EventbriteAPI';
 import { Utility } from '../utility/Utility';
 
 export default function TalentreePage() {
