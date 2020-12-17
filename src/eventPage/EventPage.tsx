@@ -27,26 +27,10 @@ export default function EventPage() {
 
     const eventDescription = useRecoilValueLoadable(EventFullDescriptionFromId(eventId));
 
-    /**
-     * // TODO: lanciato colo la prima volta, altrimenti re-render infinito. Serve a settare un css al sottotitolo
-        if (parentDescriptionRef.current) {
-            const elem = (parentDescriptionRef.current.querySelector(':nth-child(3)')?.previousElementSibling as any);
-            if (elem) {
-                elem.style = {
-                    ...elem.style,
-                    ...styles.parentDescriptionDivFirstchild
-                };
-            }
-        }
-     */
-
-
     return (
         <div className='content box columns' style={ styles.container }>
             <div ref={ parentDescriptionRef } className='column'>
-                <Suspense fallback={ <h2 className="title">Loading...</h2> }>
-                    <EventDetails eventId={ eventId } />
-                </Suspense>
+                <EventDetails eventId={ eventId } />
                 { eventDescription.state === 'hasValue' ? eventDescription.contents : null }
                 <EventIFrame eventId={ eventId } />
             </div>

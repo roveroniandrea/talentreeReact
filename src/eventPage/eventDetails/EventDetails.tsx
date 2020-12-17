@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValueLoadable } from 'recoil';
 import { EventDataFromId } from '../../core/eventbrite/Eventbrite.store';
 import { Utility } from '../../utility/Utility';
 
@@ -23,9 +23,9 @@ const styles: {
 };
 
 export default function EventDetails(props: { eventId: string; }) {
-    const eventData = useRecoilValue(EventDataFromId(props.eventId));
+    const eventData = useRecoilValueLoadable(EventDataFromId(props.eventId));
 
-    const aspectRatio = eventData ? eventData.logo.width / eventData.logo.height : 1;
+    const aspectRatio = eventData.state ==='hasValue' ? eventData.contents.logo.width / eventData.contents.logo.height : 1;
     const maxWidth = 350;
     const maxHeigth = maxWidth / aspectRatio;
 
@@ -33,28 +33,28 @@ export default function EventDetails(props: { eventId: string; }) {
     return (
         <div style={ styles.parent }>
             <div className='box' style={ styles.containerBox }>
-                { eventData ? <article className="media is-align-items-center">
+                { eventData.state === 'hasValue' ? <article className="media is-align-items-center">
                     <div className="media-left">
                         <figure className="image" style={ ({
-                            width: eventData.logo.width,
-                            height: eventData.logo.height,
+                            width: eventData.contents.logo.width,
+                            height: eventData.contents.logo.height,
                             maxWidth: `${maxWidth}px`,
                             maxHeight: `${maxHeigth}px`
                         }) }>
-                            <img src={ eventData.logo.url } alt="logoUrl" />
+                            <img src={ eventData.contents.logo.url } alt="logoUrl" />
                         </figure>
                     </div>
                     <div className="media-content">
                         <div className="content">
                             <p style={ styles.text }>
-                                <strong>{ eventData.eventName }</strong>
+                                <strong>{ eventData.contents.eventName }</strong>
                                 <br />
-                                { Utility.formatDate(eventData.start) }
+                                { Utility.formatDate(eventData.contents.start) }
                             </p>
                         </div>
                         <nav className="level is-mobile">
                             <div className="level-left">
-                                <a target="blank" href={ `https://www.eventbrite.it/e/${eventData.eventId}` } className="button is-link">
+                                <a target="blank" href={ `https://www.eventbrite.it/e/${eventData.contents.eventId}` } className="button is-link">
                                     <span>Vai su Eventbrite</span>
                                     <span className="icon is-small">
                                         <i className="fa fa-external-link"></i>
