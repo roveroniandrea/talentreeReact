@@ -70,7 +70,7 @@ export default function Home() {
     );
 
     return (
-        <div className="columns is-desktop">
+        <div className="columns is-desktop" style={ ({ marginLeft: '10px', marginRight: '30px', marginTop: '20px' }) }>
             <div className="column is-hidden-tablet">
                 { box }
             </div>
