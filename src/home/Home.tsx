@@ -5,6 +5,7 @@ import { Utility } from '../utility/Utility';
 import { useHistory } from 'react-router';
 import { useRecoilValueLoadable } from 'recoil';
 import { FacebookPostsStore } from '../core/facebook/Facebook.store';
+import { NextActivities } from '../core/eventbrite/Eventbrite.store';
 
 const styles: {
     [ elem: string ]: CSSProperties;
@@ -20,24 +21,16 @@ const styles: {
 export default function Home() {
 
     const history = useHistory();
-    const [ recentEvents, setRecentEvents ] = useState<EventData[]>([]);
+    const nextActivities = useRecoilValueLoadable(NextActivities);
 
     const facebookPosts = useRecoilValueLoadable(FacebookPostsStore);
 
-    useEffect(() => {
-
-        EventBriteAPI.getNextActivities()
-            .then(events => {
-                //TODO: controlla correttezza
-                let nearest = events.sort((e1, e2) => e1.start.getTime() - e2.start.getTime());
-                setRecentEvents(nearest.slice(0, 5));
-            });
-    }, []);
+    const recentEvents = nextActivities.state === 'hasValue' ? nextActivities.contents.slice().sort((e1, e2) => e1.start.getTime() - e2.start.getTime()).slice(0, 5) : [];
 
     return (
         <div className="columns is-desktop">
             <div className='column is-three-quarters' style={ styles.columnPosts }>
-                { facebookPosts.state == 'hasValue' ? facebookPosts.contents.map(post => <FacebookPost key={ post.fullId } post={ post } />) :
+                { facebookPosts.state === 'hasValue' ? facebookPosts.contents.map(post => <FacebookPost key={ post.fullId } post={ post } />) :
                     <h2 className="title">{ facebookPosts.state == 'loading' ? 'Loading...' : 'Error' }</h2> }
             </div>
             <div className="column">
