@@ -1,6 +1,7 @@
-import { createRef, CSSProperties, useEffect, useState } from "react";
-import { useParams } from "react-router";
-import { EventBriteAPI } from '../utility/EventbriteAPI';
+import { createRef, CSSProperties, Suspense, useEffect } from "react";
+import { useParams } from 'react-router-dom';
+import { useRecoilValueLoadable, useSetRecoilState } from 'recoil';
+import { CurrentEventIdState, EventFullDescriptionFromId } from '../core/eventbrite/Eventbrite.store';
 import EventDetails from './eventDetails/EventDetails';
 
 const styles: {
@@ -18,17 +19,13 @@ const styles: {
 };
 
 export default function EventPage() {
-    const [ eventFullDescription, setEventFullDescription ] = useState<JSX.Element>(<h1>Loading...</h1>);
     const widgetRef = createRef<HTMLDivElement>();
     const parentDescriptionRef = createRef<HTMLDivElement>();
     const { eventId } = useParams<{ eventId: string; }>();
+    const setCurrentEventIdState = useSetRecoilState(CurrentEventIdState);
+    setCurrentEventIdState(eventId);
 
-    const getDescription = () => {
-        setEventFullDescription(<h1>Loading...</h1>);
-        //Opzione 3
-        EventBriteAPI.getEventFullDescription(eventId)
-            .then(desc => setEventFullDescription(desc));
-    };
+    const eventDescription = useRecoilValueLoadable(EventFullDescriptionFromId(eventId));
 
     useEffect(() => {
         if (widgetRef.current) {
@@ -37,7 +34,6 @@ export default function EventPage() {
         // TODO: lanciato colo la prima volta, altrimenti re-render infinito
         if (parentDescriptionRef.current) {
             const elem = (parentDescriptionRef.current.querySelector(':nth-child(3)')?.previousElementSibling as any);
-            console.log(parentDescriptionRef.current, elem);
             if (elem) {
                 elem.style = {
                     ...elem.style,
@@ -55,15 +51,18 @@ export default function EventPage() {
             // Optional
             iframeContainerHeight: 425,  // Widget height in pixels. Defaults to a minimum of 425px if not provided
         });
-        getDescription();
     }, []);
 
 
     return (
         <div className='content box columns' style={ styles.container }>
             <div ref={ parentDescriptionRef } className='column'>
-                <EventDetails eventId={ eventId } />
-                { eventFullDescription }
+                <Suspense fallback={<h2 className="title">Loading...</h2>}>
+                    <EventDetails eventId={ eventId } />
+                </Suspense>
+                { eventDescription.state === 'hasValue' ? eventDescription.contents :
+                    <h2 className="title">{ eventDescription.state == 'loading' ? 'Loading...' : 'Error' }</h2>
+                }
                 <div ref={ widgetRef } id={ `eventbrite-widget-container-${eventId}` }></div>
             </div>
         </div>

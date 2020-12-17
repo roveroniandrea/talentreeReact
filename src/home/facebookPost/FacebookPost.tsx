@@ -1,4 +1,4 @@
-import { FacebookAPI, FacebookPostData } from '../../utility/FacebookAPI';
+import { FacebookAPI, FacebookPostData } from '../../core/facebook/FacebookAPI';
 
 interface FacebookPostProps {
     post: FacebookPostData;

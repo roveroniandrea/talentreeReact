@@ -1,5 +1,6 @@
-import { CSSProperties, useEffect, useState } from 'react';
-import { EventBriteAPI, EventData } from '../../utility/EventbriteAPI';
+import { CSSProperties } from 'react';
+import { useRecoilValue } from 'recoil';
+import { EventDataFromId } from '../../core/eventbrite/Eventbrite.store';
 import { Utility } from '../../utility/Utility';
 interface EventDetailsProps {
     eventId: string;
@@ -25,12 +26,7 @@ const styles: {
 };
 
 export default function EventDetails(props: EventDetailsProps) {
-    const [ eventData, setEventData ] = useState<EventData>(null);
-
-    useEffect(() => {
-        EventBriteAPI.getEventById(props.eventId)
-            .then(ev => setEventData(ev));
-    });
+    const eventData = useRecoilValue(EventDataFromId(props.eventId));
 
     const aspectRatio = eventData ? eventData.logo.width / eventData.logo.height : 1;
     const maxWidth = 350;

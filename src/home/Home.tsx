@@ -1,9 +1,11 @@
 import { CSSProperties, useEffect, useState } from "react";
 import FacebookPost from './facebookPost/FacebookPost';
-import { FacebookAPI, FacebookPostData } from '../utility/FacebookAPI';
-import { EventBriteAPI, EventData } from '../utility/EventbriteAPI';
+import { EventBriteAPI, EventData } from '../core/eventbrite/EventbriteAPI';
 import { Utility } from '../utility/Utility';
 import { useHistory } from 'react-router';
+import { useRecoilValueLoadable } from 'recoil';
+import { FacebookPostsStore } from '../core/facebook/Facebook.store';
+import { NextActivities } from '../core/eventbrite/Eventbrite.store';
 
 const styles: {
     [ elem: string ]: CSSProperties;
@@ -19,27 +21,17 @@ const styles: {
 export default function Home() {
 
     const history = useHistory();
-    const [ posts, setPosts ] = useState<FacebookPostData[]>([]);
-    const [ recentEvents, setRecentEvents ] = useState<EventData[]>([]);
+    const nextActivities = useRecoilValueLoadable(NextActivities);
 
-    useEffect(() => {
-        FacebookAPI.getFacebookPosts()
-            .then(posts => {
-                setPosts(posts);
-            });
+    const facebookPosts = useRecoilValueLoadable(FacebookPostsStore);
 
-        EventBriteAPI.getNextActivities()
-            .then(events => {
-                //TODO: controlla correttezza
-                let nearest = events.sort((e1, e2) => e1.start.getTime() - e2.start.getTime());
-                setRecentEvents(nearest.slice(0, 5));
-            });
-    }, []);
+    const recentEvents = nextActivities.state === 'hasValue' ? nextActivities.contents.slice().sort((e1, e2) => e1.start.getTime() - e2.start.getTime()).slice(0, 5) : [];
 
     return (
         <div className="columns is-desktop">
-            <div className='column is-three-quarters' style={ styles.columnPosts}>
-                { posts.map(post => <FacebookPost key={ post.fullId } post={ post } />) }
+            <div className='column is-three-quarters' style={ styles.columnPosts }>
+                { facebookPosts.state === 'hasValue' ? facebookPosts.contents.map(post => <FacebookPost key={ post.fullId } post={ post } />) :
+                    <h2 className="title">{ facebookPosts.state == 'loading' ? 'Loading...' : 'Error' }</h2> }
             </div>
             <div className="column">
                 <div className="box">

@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { EventBriteAPI, EventData } from '../utility/EventbriteAPI';
+import { useRecoilValueLoadable } from 'recoil';
+import { NextActivities } from '../core/eventbrite/Eventbrite.store';
+import { EventData } from '../core/eventbrite/EventbriteAPI';
 import { Utility } from '../utility/Utility';
 
 interface EventsState {
@@ -14,19 +16,7 @@ export default function AppBar() {
     const history = useHistory();
     const [ burgerOpen, setBurgerOpen ] = useState(false);
 
-    const [ events, setEvents ] = useState<EventsState>({
-        loadingEvents: true,
-        events: []
-    });
-
-    useEffect(() => {
-        EventBriteAPI.getNextActivities().then(events => {
-            setEvents({
-                loadingEvents: false,
-                events
-            });
-        });
-    }, []);
+    const nextActivities = useRecoilValueLoadable(NextActivities);
 
     const toggleDrawer = () => {
         setBurgerOpen(!burgerOpen);
@@ -39,19 +29,19 @@ export default function AppBar() {
         }
     };
     const buildActivitiesDropdown = (): JSX.Element => {
-        if (events.loadingEvents) {
+        if (nextActivities.state !== 'hasValue') {
             return (
                 <a className="navbar-item">
-                    Loading...
+                    {nextActivities.state === 'loading' ? 'Loading...' : 'Error' }
                 </a>);
         }
         else {
-            if (!events.events || events.events.length === 0) {
+            if (nextActivities.contents.length == 0) {
                 return <a className="navbar-item">Nessun evento</a>;
             }
             return (
                 <Fragment>
-                    {events.events.map(ev => (
+                    {nextActivities.contents.map(ev => (
                         <a key={ ev.eventId } className="navbar-item" onClick={ () => changeToRoute('/event/' + ev.eventId) }>{ ev.eventName }</a>
                     )) }
                 </Fragment>
