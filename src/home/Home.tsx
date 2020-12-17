@@ -55,25 +55,32 @@ export default function Home() {
         }
     }, [ facebookPostsOEmbed.state ]);
 
+    const box = (
+        <div className="box">
+            <h1 className="title">Prossimi eventi</h1>
+            { recentEvents.map((ev: EventData) => (
+                <div className='button is-large' style={ styles.eventDiv } key={ ev.eventId } onClick={ () => Utility.navigateToEvent(ev, history) }>
+                    <div className="block">
+                        <p className="title is-4">{ ev.eventName }</p>
+                        <p className="subtitle is-6">{ Utility.formatDate(ev.start) }</p>
+                    </div>
+                </div>
+            )) }
+        </div>
+    );
+
     return (
         <div className="columns is-desktop">
+            <div className="column is-hidden-tablet">
+                { box }
+            </div>
             <div className='column is-three-quarters' style={ styles.columnPosts }>
                 <div>
                     { facebookPostsContainer }
                 </div>
             </div>
-            <div className="column">
-                <div className="box">
-                    <h1 className="title">Prossimi eventi</h1>
-                    { recentEvents.map((ev: EventData) => (
-                        <div className='button is-large' style={ styles.eventDiv } key={ ev.eventId } onClick={ () => Utility.navigateToEvent(ev, history) }>
-                            <div className="block">
-                                <p className="title is-4">{ ev.eventName }</p>
-                                <p className="subtitle is-6">{ Utility.formatDate(ev.start) }</p>
-                            </div>
-                        </div>
-                    )) }
-                </div>
+            <div className="column is-hidden-mobile">
+                { box }
             </div>
         </div>
     );

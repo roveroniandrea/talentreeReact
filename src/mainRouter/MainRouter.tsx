@@ -8,6 +8,7 @@ import Home from "../home/Home";
 import AppBar from "../AppBar/AppBar";
 import TalentreePage from '../talentreePage/TalentreePage';
 import YoutubeVideos from '../youtubeVideos/YoutubeVideos';
+import MentorsPage from '../mentors/MentorsPage';
 
 export default function MainRouter() {
     return (
@@ -25,6 +26,9 @@ export default function MainRouter() {
                 </Route>
                 <Route exact path="/gallery">
                     <YoutubeVideos />
+                </Route>
+                <Route exact path="/mentors">
+                    <MentorsPage />
                 </Route>
                 <Route path="*">
                     <h1>Not implemented</h1>
