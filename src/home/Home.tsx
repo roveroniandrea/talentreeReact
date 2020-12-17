@@ -34,6 +34,7 @@ export default function Home() {
     useEffect(() => {
         switch (facebookPostsOEmbed.state) {
             case 'hasValue': {
+                // Initializing the ugly facebook sdk to render the loaded posts
                 (window as any).FB.init({
                     appId: FacebookAPI.getAppId(),
                     autoLogAppEvents: true,

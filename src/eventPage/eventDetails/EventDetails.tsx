@@ -2,9 +2,6 @@ import { CSSProperties } from 'react';
 import { useRecoilValue } from 'recoil';
 import { EventDataFromId } from '../../core/eventbrite/Eventbrite.store';
 import { Utility } from '../../utility/Utility';
-interface EventDetailsProps {
-    eventId: string;
-}
 
 const styles: {
     [ key: string ]: CSSProperties;
@@ -25,7 +22,7 @@ const styles: {
     }
 };
 
-export default function EventDetails(props: EventDetailsProps) {
+export default function EventDetails(props: { eventId: string; }) {
     const eventData = useRecoilValue(EventDataFromId(props.eventId));
 
     const aspectRatio = eventData ? eventData.logo.width / eventData.logo.height : 1;

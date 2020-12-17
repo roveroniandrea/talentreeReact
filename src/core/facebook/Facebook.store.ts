@@ -1,7 +1,8 @@
 import { atom, selector, selectorFamily, waitForAll } from 'recoil';
 import { FacebookAPI, FacebookPostData } from './FacebookAPI';
 
-export const FacebookPostsStore = atom<FacebookPostData[]>({
+/** The atom containing all the facebook posts loaded */
+const FacebookPostsStore = atom<FacebookPostData[]>({
     key: 'FacebookPostsStore',
     default: selector({
         key: 'FacebookPostsStore/default',
@@ -9,11 +10,13 @@ export const FacebookPostsStore = atom<FacebookPostData[]>({
     }),
 });
 
+/** Returns the JSX.Element of an embedded post*/
 const OEmbedSinglePostStore = selectorFamily<JSX.Element, string>({
     key: 'OEmbedSinglePostStore',
     get: (postUrl) => () => FacebookAPI.getPostOEmbed(postUrl),
 });
 
+/** Returns all the embedded posts loaded. Uses the `FacebookPostsStore` atom */
 export const OEmbedPostsStore = selector<JSX.Element[]>({
     key: 'OEmbedPostsStore',
     get: ({ get }) => {

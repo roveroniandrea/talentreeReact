@@ -16,10 +16,12 @@ export class Utility {
         return `${year} - ${year + 1}`;
     }
 
+    /** Formats a date to a human readable string */
     static formatDate(date: Date) {
         return date.toLocaleDateString(undefined, this.formatOptions);
     }
 
+    /** Navigates to the event details page */
     static navigateToEvent(event: EventData, history: History) {
         history.push('/event/' + event.eventId);
     }

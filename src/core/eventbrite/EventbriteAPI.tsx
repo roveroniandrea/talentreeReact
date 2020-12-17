@@ -16,7 +16,7 @@ export class EventBriteAPI {
     /** Endpoint of Eventbrite APIs */
     private static eventbriteEndpoint = 'https://www.eventbriteapi.com/v3';
 
-    /** Starts loading the events from the endpoint. Triggers `this.loadingEventsPromise`*/
+    /** Loads the events from the endpoint*/
     public static loadEvents(): Promise<EventData[]> {
         return Axios.get(`${this.eventbriteEndpoint}/organizations/${process.env.REACT_APP_EVENTBRITE_ORGANIZATION_ID}/events/?order_by=start_asc`,
             {
@@ -46,7 +46,7 @@ export class EventBriteAPI {
             });
     }
 
-    /** Returns a JSX.Element containing the full description of an event */
+    /** Returns a `JSX.Element` containing the full description of an event */
     static getEventFullDescription(eventId: string): Promise<JSX.Element> {
         return Axios.get(`${this.eventbriteEndpoint}/events/${eventId}/description/`, {
             headers: {

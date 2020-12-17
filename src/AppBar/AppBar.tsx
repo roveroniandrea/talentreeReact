@@ -3,19 +3,16 @@ import React, { Fragment, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 import { NextActivities } from '../core/eventbrite/Eventbrite.store';
-import { EventData } from '../core/eventbrite/EventbriteAPI';
 import { Utility } from '../utility/Utility';
-
-interface EventsState {
-    loadingEvents: boolean;
-    events: Array<EventData>;
-}
 
 export default function AppBar() {
 
     const history = useHistory();
+
+    // State for opening and closing the burger
     const [ burgerOpen, setBurgerOpen ] = useState(false);
 
+    /* The next activities selector*/
     const nextActivities = useRecoilValueLoadable(NextActivities);
 
     const toggleDrawer = () => {
@@ -23,11 +20,14 @@ export default function AppBar() {
     };
 
     const changeToRoute = (path: string) => {
+        // Navigating to route and closing the burger
         history.push(path);
         if (burgerOpen) {
             setBurgerOpen(!burgerOpen);
         }
     };
+
+    /** Returns the nearest next activities or a loading/error text */
     const buildActivitiesDropdown = (): JSX.Element => {
         if (nextActivities.state !== 'hasValue') {
             return (
@@ -97,10 +97,10 @@ export default function AppBar() {
                         </a>
 
                         <div className="navbar-dropdown">
-                            <a className="navbar-item">
+                            <a className="navbar-item" onClick={ () => changeToRoute('/about') }>
                                 Chi siamo
                             </a>
-                            <a className="navbar-item">
+                            <a className="navbar-item" onClick={ () => changeToRoute('/contact') }>
                                 Contatti
                             </a>
                         </div>
