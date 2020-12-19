@@ -11,7 +11,7 @@ export default function TalentreePage() {
         case 'hasValue': {
             return (
                 <Fragment>
-                    { talentreeEvents.contents.map((ev: EventData) => <EventLink event={ ev } />) }
+                    { talentreeEvents.contents.map((ev: EventData) => <EventLink key={ ev.eventId } event={ ev } />) }
                 </Fragment>
             );
         }

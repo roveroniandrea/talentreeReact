@@ -44,7 +44,7 @@ export default function HomePage() {
     const box = (
         <div className="box">
             <h1 className="title">Prossimi eventi</h1>
-            { recentEvents.map((ev: EventData) => <EventLink event={ ev } />) }
+            { recentEvents.map((ev: EventData) => <EventLink key={ ev.eventId } event={ ev } />) }
         </div>
     );
 
