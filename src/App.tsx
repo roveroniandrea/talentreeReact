@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { RecoilRoot } from 'recoil';
-import MainRouter from './mainRouter/MainRouter';
+import MainRouter from './core/mainRouter/MainRouter';
 
 class App extends Component {
   render() {

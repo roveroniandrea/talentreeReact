@@ -34,13 +34,17 @@ export const TalentreeEvents = selector<EventData[]>({
     get: ({ get }) => get(EventbriteEventsState).filter((event) => event.eventName.includes('Talentree')),
 });
 
-/** Returns only the next activities. Uses the `EventbriteEventsState` atom */
-export const NextActivities = selector<EventData[]>({
+/** Returns only the next activities. Uses the `EventbriteEventsState` atom
+ * @param param Wheter to include Talentree events or not
+ */
+export const NextActivities = selectorFamily<EventData[], boolean>({
     key: 'NextActivities',
-    get: ({ get }) => {
+    get: (includeTalentreeEvents) => ({ get }) => {
         let events = get(EventbriteEventsState);
         let now = new Date().getTime();
         let maxPassedTime = 3 * 24 * 60 * 60 * 1000;
-        return events.filter((event) => event.start.getTime() - now >= -maxPassedTime && !event.eventName.includes('Talentree'));
+        return events.filter(
+            (event) => event.start.getTime() - now >= -maxPassedTime && (includeTalentreeEvents || !event.eventName.includes('Talentree'))
+        );
     },
 });

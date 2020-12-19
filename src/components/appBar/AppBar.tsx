@@ -2,8 +2,8 @@
 import React, { Fragment, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
-import { NextActivities } from '../core/eventbrite/Eventbrite.store';
-import { Utility } from '../utility/Utility';
+import { NextActivities } from '../../core/eventbrite/Eventbrite.store';
+import { Utility } from '../../utility/Utility';
 
 export default function AppBar() {
 
@@ -13,7 +13,7 @@ export default function AppBar() {
     const [ burgerOpen, setBurgerOpen ] = useState(false);
 
     /* The next activities selector*/
-    const nextActivities = useRecoilValueLoadable(NextActivities);
+    const nextActivities = useRecoilValueLoadable(NextActivities(false));
 
     const toggleDrawer = () => {
         setBurgerOpen(!burgerOpen);

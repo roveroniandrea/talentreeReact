@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { History } from 'history';
 
 /** Stores the data for a single Eventbrite event */
 export interface EventData {
@@ -56,5 +57,10 @@ export class EventBriteAPI {
             .then(res => {
                 return (<div dangerouslySetInnerHTML={ ({ __html: res.data.description }) } />);
             });
+    }
+
+    /** Navigates to the event details page */
+    static navigateToEvent(event: EventData, history: History) {
+        history.push('/event/' + event.eventId);
     }
 }

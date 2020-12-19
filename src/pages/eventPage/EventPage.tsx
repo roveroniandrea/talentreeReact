@@ -1,7 +1,7 @@
 import { createRef, CSSProperties } from "react";
 import { useParams } from 'react-router-dom';
 import { useRecoilValueLoadable, useSetRecoilState } from 'recoil';
-import { CurrentEventIdState, EventFullDescriptionFromId } from '../core/eventbrite/Eventbrite.store';
+import { CurrentEventIdState, EventFullDescriptionFromId } from '../../core/eventbrite/Eventbrite.store';
 import EventDetails from './eventDetails/EventDetails';
 import EventIFrame from './eventIframe/EventIFrame';
 

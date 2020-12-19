@@ -1,7 +1,7 @@
 import { CSSProperties } from 'react';
 import { useRecoilValueLoadable } from 'recoil';
-import { EventDataFromId } from '../../core/eventbrite/Eventbrite.store';
-import { Utility } from '../../utility/Utility';
+import { EventDataFromId } from '../../../core/eventbrite/Eventbrite.store';
+import { Utility } from '../../../utility/Utility';
 
 const styles: {
     [ key: string ]: CSSProperties;

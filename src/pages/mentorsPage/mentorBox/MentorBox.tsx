@@ -1,5 +1,3 @@
-import { Fragment } from 'react';
-
 export default function MentorBox(props: { mentor: { name: string, description: string, image: string; }, left: boolean; }) {
 
     const filler = (
