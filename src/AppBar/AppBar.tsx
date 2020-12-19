@@ -36,7 +36,7 @@ export default function AppBar() {
                 </a>);
         }
         else {
-            if (nextActivities.contents.length == 0) {
+            if (nextActivities.contents.length === 0) {
                 return <a className="navbar-item">Nessun evento</a>;
             }
             return (

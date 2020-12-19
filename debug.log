@@ -14,3 +14,4 @@
 [1129/111823.887:ERROR:crash_report_database_win.cc(496)] failed to stat report
 [1129/111823.887:ERROR:crash_report_database_win.cc(496)] failed to stat report
 [1129/111823.887:ERROR:crash_report_database_win.cc(496)] failed to stat report
+[1219/190451.691:ERROR:directory_reader_win.cc(43)] FindFirstFile: Impossibile trovare il percorso specificato. (0x3)
