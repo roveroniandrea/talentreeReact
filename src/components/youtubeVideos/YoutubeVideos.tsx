@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { useRecoilValueLoadable } from 'recoil';
-import { YoutubeVideosState } from '../core/youtube/Youtube.store';
+import { YoutubeVideosState } from '../../core/youtube/Youtube.store';
 
 export default function YoutubeVideos() {
 

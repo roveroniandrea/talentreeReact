@@ -1,30 +1,16 @@
-import { CSSProperties, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import FacebookPost from './facebookPost/FacebookPost';
-import { EventData } from '../core/eventbrite/EventbriteAPI';
-import { Utility } from '../utility/Utility';
-import { useHistory } from 'react-router';
+import { EventData } from '../../core/eventbrite/EventbriteAPI';
 import { useRecoilValueLoadable } from 'recoil';
-import { OEmbedPostsStore } from '../core/facebook/Facebook.store';
-import { NextActivities } from '../core/eventbrite/Eventbrite.store';
-import { FacebookAPI } from '../core/facebook/FacebookAPI';
+import { OEmbedPostsStore } from '../../core/facebook/Facebook.store';
+import { NextActivities } from '../../core/eventbrite/Eventbrite.store';
+import { FacebookAPI } from '../../core/facebook/FacebookAPI';
+import EventLink from '../../components/eventLink/EventLink';
 
-const styles: {
-    [ elem: string ]: CSSProperties;
-} = {
-    columnPosts: { display: 'flex', justifyContent: 'center', flexWrap: 'wrap' },
-    eventDiv: {
-        height: 'auto',
-        width: 'auto',
-        marginBottom: '5%',
-    }
-};
-
-export default function Home() {
-
-    const history = useHistory();
+export default function HomePage() {
     const [ facebookPostsContainer, setFacebookPostsContainer ] = useState<JSX.Element[]>([]);
 
-    const nextActivities = useRecoilValueLoadable(NextActivities);
+    const nextActivities = useRecoilValueLoadable(NextActivities(true));
 
     const facebookPostsOEmbed = useRecoilValueLoadable(OEmbedPostsStore);
 
@@ -45,7 +31,7 @@ export default function Home() {
                 break;
             }
             case 'loading': {
-                setFacebookPostsContainer([ <h2 className="title" key="loadingTitle">Loading...</h2> ]);
+                setFacebookPostsContainer([]);
                 break;
             }
             case 'hasError': {
@@ -53,19 +39,12 @@ export default function Home() {
                 break;
             }
         }
-    }, [ facebookPostsOEmbed.state ]);
+    }, [ facebookPostsOEmbed ]);
 
     const box = (
         <div className="box">
             <h1 className="title">Prossimi eventi</h1>
-            { recentEvents.map((ev: EventData) => (
-                <div className='button is-large' style={ styles.eventDiv } key={ ev.eventId } onClick={ () => Utility.navigateToEvent(ev, history) }>
-                    <div className="block">
-                        <p className="title is-4">{ ev.eventName }</p>
-                        <p className="subtitle is-6">{ Utility.formatDate(ev.start) }</p>
-                    </div>
-                </div>
-            )) }
+            { recentEvents.map((ev: EventData) => <EventLink event={ ev } />) }
         </div>
     );
 
@@ -74,7 +53,7 @@ export default function Home() {
             <div className="column is-hidden-tablet">
                 { box }
             </div>
-            <div className='column is-three-quarters' style={ styles.columnPosts }>
+            <div className='column is-three-quarters' style={ ({ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }) }>
                 <div>
                     { facebookPostsContainer }
                 </div>
