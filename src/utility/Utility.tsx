@@ -17,4 +17,9 @@ export class Utility {
     static formatDate(date: Date) {
         return date.toLocaleDateString(undefined, this.formatOptions);
     }
+
+    /** Returns the path to load the image */
+    static getImagePath(fileName: string): string {
+        return `${process.env.PUBLIC_URL}/assets/${fileName}`;
+    }
 }

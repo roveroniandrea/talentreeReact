@@ -13,6 +13,7 @@ import MentorsPage from '../../pages/mentorsPage/MentorsPage';
 import ContactPage from '../../pages/contactPage/ContactPage';
 import AboutPage from '../../pages/aboutPage/AboutPage';
 import React from 'react';
+import Footer from '../../components/footer/Footer';
 
 export default function MainRouter() {
     return (
@@ -44,6 +45,7 @@ export default function MainRouter() {
                     <Redirect to="/" />
                 </Route>
             </Switch>
+            <Footer />
         </Router>
     );
 };

@@ -47,11 +47,6 @@ export class FacebookAPI {
         });
     }
 
-    /** Returns the Facebook app id */
-    static getAppId() {
-        return process.env.REACT_APP_FACEBOOK_APP_ID;
-    }
-
     /** Returns the JSX.Element of a single post */
     static getPostOEmbed(postUrl: string): Promise<JSX.Element> {
         return Axios.get(`${this.facebookEndpoint}/oembed_post?url=${postUrl}&omitscript=true`, {
@@ -59,5 +54,21 @@ export class FacebookAPI {
                 'Authorization': `Bearer ${process.env.REACT_APP_FACEBOOK_ACCESS_TOKEN}`
             }
         }).then(response => <div dangerouslySetInnerHTML={ ({ __html: response.data.html }) } />);
+    }
+
+    /** Return the url of the facebook page */
+    static getPageUrl(): string {
+        return `https://facebook.com/${process.env.REACT_APP_FACEBOOK_PAGE_ID}`;
+    }
+
+    /** Initializes the ugly facebook sdk to load the posts*/
+    static renderOEmbedPosts() {
+        // Initializing the ugly facebook sdk to render the loaded posts
+        (window as any).FB.init({
+            appId: process.env.REACT_APP_FACEBOOK_APP_ID,
+            autoLogAppEvents: true,
+            xfbml: true,
+            version: 'v9.0'
+        });
     }
 }

@@ -1,3 +1,5 @@
+import { Utility } from '../../../utility/Utility';
+
 export default function MentorBox(props: { mentor: { name: string, description: string, image: string; }, left: boolean; }) {
 
     const filler = (
@@ -9,7 +11,7 @@ export default function MentorBox(props: { mentor: { name: string, description: 
                 <div className="media">
                     <div className="media-left">
                         <figure className="image is-128x128 is-square">
-                            <img className="is-rounded" src={ `${process.env.PUBLIC_URL}/assets/${props.mentor.image}` } alt={ props.mentor.name } />
+                            <img className="is-rounded" src={ Utility.getImagePath(props.mentor.image) } alt={ props.mentor.name } />
                         </figure>
                     </div>
                     <div className="media-content" style={ ({ marginLeft: '10px' }) }>

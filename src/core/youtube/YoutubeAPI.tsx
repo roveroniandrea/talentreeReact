@@ -1,9 +1,9 @@
 import Axios from 'axios';
 
-export class YoutubeAPI{
+export class YoutubeAPI {
 
     private static youtubeEndpoint = 'https://www.googleapis.com/youtube/v3';
-    
+
     /** Returns all the youtube videos' id */
     static loadYoutubeVideos(): Promise<string[]> {
         return Axios.get(`${this.youtubeEndpoint}/search?key=${process.env.REACT_APP_GOOGLE_API_KEY}&channelId=${process.env.REACT_APP_YOUTUBE_CHANNEL_ID}&part=snippet,id&order=date&maxResults=20`)
@@ -17,5 +17,10 @@ export class YoutubeAPI{
                     throw new Error('No videos returned');
                 }
             });
+    }
+
+    /** Return the url of the youtube channel */
+    static getChannelUrl(): string {
+        return `https://www.youtube.com/channel/${process.env.REACT_APP_YOUTUBE_CHANNEL_ID}`;
     }
 }
