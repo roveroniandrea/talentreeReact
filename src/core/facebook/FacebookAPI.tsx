@@ -49,7 +49,8 @@ export class FacebookAPI {
 
     /** Returns the JSX.Element of a single post */
     static getPostOEmbed(postUrl: string): Promise<JSX.Element> {
-        return Axios.get(`${this.facebookEndpoint}/oembed_post?url=${postUrl}&omitscript=true`, {
+        const width = Math.min(window.screen.width, 512);
+        return Axios.get(`${this.facebookEndpoint}/oembed_post?url=${postUrl}&omitscript=true&maxwidth=${width}`, {
             headers: {
                 'Authorization': `Bearer ${process.env.REACT_APP_FACEBOOK_ACCESS_TOKEN}`
             }
