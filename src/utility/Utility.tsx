@@ -22,4 +22,9 @@ export class Utility {
     static getImagePath(fileName: string): string {
         return `${process.env.PUBLIC_URL}/assets/${fileName}`;
     }
+
+    /** Returns the url to query the google maps api */
+    static getMapsUrl(): string{
+        return `https://www.google.com/maps/embed/v1/place?q=Via%20asiago%203%2C%20noale&key=${process.env.REACT_APP_GOOGLE_API_KEY}`
+    }
 }
