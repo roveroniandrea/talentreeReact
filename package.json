@@ -25,7 +25,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "node publishToGithub.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -53,5 +53,5 @@
     "@types/react-router-dom": "^5.1.6",
     "gh-pages": "^3.1.0"
   },
-  "homepage": "http://roveroniandrea.github.io/talentreeReact"
+  "homepage": "http://roveroniandrea.github.io"
 }
