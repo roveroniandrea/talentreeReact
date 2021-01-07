@@ -27,9 +27,7 @@
     "predeploy": "npm run build",
     "deploy": "node publishToGithub.js",
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "react-scripts build"
   },
   "eslintConfig": {
     "extends": [
