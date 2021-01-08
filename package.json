@@ -24,8 +24,6 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "node publishToGithub.js",
     "start": "react-scripts start",
     "build": "react-scripts build"
   },
@@ -49,8 +47,7 @@
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.1.6",
-    "gh-pages": "^3.1.0",
-    "serve": "^11.3.2"
+    "http-server": "^0.12.3"
   },
-  "homepage": "http://roveroniandrea.github.io"
+  "homepage": "https://talentree-host-prova.herokuapp.com"
 }
