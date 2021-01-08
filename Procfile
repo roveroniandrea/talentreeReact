@@ -1,0 +1,1 @@
+web: npx http-server build --proxy https://talentree-host-prova.herokuapp.com?
