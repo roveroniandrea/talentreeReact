@@ -28,3 +28,10 @@ workbox.routing.registerRoute(
         cacheName: 'documents-cache',
     })
 );
+
+workbox.routing.registerRoute(
+    ({ request }) => request.destination === '',
+    new workbox.strategies.NetworkFirst({
+        cacheName: 'others-cache',
+    })
+);
