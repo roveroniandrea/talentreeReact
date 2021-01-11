@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import FacebookPost from './facebookPost/FacebookPost';
 import { EventData } from '../../core/eventbrite/EventbriteAPI';
 import { useRecoilValueLoadable } from 'recoil';
 import { OEmbedPostsStore } from '../../core/facebook/Facebook.store';
 import { NextActivities } from '../../core/eventbrite/Eventbrite.store';
 import { FacebookAPI } from '../../core/facebook/FacebookAPI';
-import EventLink from '../../components/eventLink/EventLink';
+import loadable from '@loadable/component';
+const FacebookPost = loadable(() => import('./facebookPost/FacebookPost'));
+const EventLink = loadable(() => import('../../components/eventLink/EventLink'));
 
 export default function HomePage() {
     const [ facebookPostsContainer, setFacebookPostsContainer ] = useState<JSX.Element[]>([]);

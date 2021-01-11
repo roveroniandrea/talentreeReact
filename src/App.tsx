@@ -1,6 +1,7 @@
+import loadable from '@loadable/component';
 import { Component } from 'react';
 import { RecoilRoot } from 'recoil';
-import MainRouter from './core/mainRouter/MainRouter';
+const MainRouter = loadable(() => import('./core/mainRouter/MainRouter'));
 
 class App extends Component {
   render() {

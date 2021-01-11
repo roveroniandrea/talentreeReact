@@ -1,8 +1,9 @@
+import loadable from '@loadable/component';
 import React, { Fragment } from 'react';
 import { useRecoilValueLoadable } from 'recoil';
-import EventLink from '../../components/eventLink/EventLink';
 import { TalentreeEvents } from '../../core/eventbrite/Eventbrite.store';
 import { EventData } from '../../core/eventbrite/EventbriteAPI';
+const EventLink = loadable(() => import('../../components/eventLink/EventLink'));
 
 export default function TalentreePage() {
     const talentreeEvents = useRecoilValueLoadable(TalentreeEvents);
