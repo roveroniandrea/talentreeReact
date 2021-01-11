@@ -19,18 +19,24 @@ export default function HomePage() {
 
 
     useEffect(() => {
+        if (facebookPostsContainer.length > 0) {
+            // FIXME: it seems that the only way to initialize the facebook posts is after some time they rendered
+            // I could not find a hook that is called AFTER the facebookPostsContainer have been drawed
+            setTimeout(() => {
+                FacebookAPI.renderOEmbedPosts();
+            }, 100);
+        }
+    }, [ facebookPostsContainer.length ]);
+
+    useEffect(() => {
         switch (facebookPostsOEmbed.state) {
             case 'hasValue': {
-                FacebookAPI.renderOEmbedPosts();
                 setFacebookPostsContainer(facebookPostsOEmbed.contents.map((oembed, index) => <FacebookPost key={ index } postOembed={ oembed } />));
-                break;
-            }
-            case 'loading': {
-                setFacebookPostsContainer([]);
                 break;
             }
             case 'hasError': {
                 setFacebookPostsContainer([ <h2 className="title" key="errorTitle">Error</h2> ]);
+
                 break;
             }
         }

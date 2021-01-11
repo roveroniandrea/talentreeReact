@@ -64,12 +64,12 @@ export class FacebookAPI {
 
     /** Initializes the ugly facebook sdk to load the posts*/
     static renderOEmbedPosts() {
-        // Initializing the ugly facebook sdk to render the loaded posts
-        (window as any).FB.init({
-            appId: process.env.REACT_APP_FACEBOOK_APP_ID,
-            autoLogAppEvents: true,
-            xfbml: true,
-            version: 'v9.0'
-        });
+            // Initializing the ugly facebook sdk to render the loaded posts
+            (window as any).FB.init({
+                appId: process.env.REACT_APP_FACEBOOK_APP_ID,
+                autoLogAppEvents: true,
+                xfbml: true,
+                version: 'v9.0'
+            });
     }
 }

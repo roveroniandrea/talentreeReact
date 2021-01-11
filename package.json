@@ -29,7 +29,7 @@
         "build": "react-scripts build",
         "postbuild": "npm run gzip",
         "serve-dev": "npx http-server build --proxy http://localhost:8080? -o --gzip",
-        "analyze": "node analize.js",
+        "analyze": "node analyze.js",
         "gzip": "gzip build/**/*.{html,css,js,svg} --extension=gz"
     },
     "eslintConfig": {
