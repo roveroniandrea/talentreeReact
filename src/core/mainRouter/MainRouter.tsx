@@ -3,17 +3,18 @@ import {
     Switch,
     Route,
     Redirect,
-} from "react-router-dom";
-import EventPage from "../../pages/eventPage/EventPage";
-import HomePage from "../../pages/homePage/HomePage";
-import AppBar from "../../components/appBar/AppBar";
-import TalentreePage from '../../pages/talentreePage/TalentreePage';
-import YoutubeVideos from '../../components/youtubeVideos/YoutubeVideos';
-import MentorsPage from '../../pages/mentorsPage/MentorsPage';
-import ContactPage from '../../pages/contactPage/ContactPage';
-import AboutPage from '../../pages/aboutPage/AboutPage';
-import React from 'react';
-import Footer from '../../components/footer/Footer';
+} from 'react-router-dom';
+import loadable from '@loadable/component';
+
+const EventPage = loadable(() => import('../../pages/eventPage/EventPage'));
+const HomePage = loadable(() => import('../../pages/homePage/HomePage'));
+const AppBar = loadable(() => import('../../components/appBar/AppBar'));
+const TalentreePage = loadable(() => import('../../pages/talentreePage/TalentreePage'));
+const YoutubeVideos = loadable(() => import('../../components/youtubeVideos/YoutubeVideos'));
+const MentorsPage = loadable(() => import('../../pages/mentorsPage/MentorsPage'));
+const ContactPage = loadable(() => import('../../pages/contactPage/ContactPage'));
+const AboutPage = loadable(() => import('../../pages/aboutPage/AboutPage'));
+const Footer = loadable(() => import('../../components/footer/Footer'));
 
 export default function MainRouter() {
     return (

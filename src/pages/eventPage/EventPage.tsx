@@ -1,9 +1,11 @@
+import loadable from '@loadable/component';
 import { createRef, CSSProperties } from "react";
 import { useParams } from 'react-router-dom';
 import { useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 import { CurrentEventIdState, EventFullDescriptionFromId } from '../../core/eventbrite/Eventbrite.store';
-import EventDetails from './eventDetails/EventDetails';
-import EventIFrame from './eventIframe/EventIFrame';
+
+const EventDetails = loadable(() => import('./eventDetails/EventDetails'));
+const EventIFrame = loadable(() => import('./eventIframe/EventIFrame'));
 
 const styles: {
     [ key: string ]: CSSProperties;
